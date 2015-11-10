@@ -1,0 +1,10 @@
+{
+  "name": "maxpat.js",
+  "description": "experimental project",
+  "version": "0.0.0",
+  "author": "Nao Yonamine <mohayonao@gmail.com>",
+  "dependencies": {},
+  "devDependencies": {},
+  "main": "index.js",
+  "private": true
+}
