@@ -4,7 +4,25 @@
   "version": "0.0.0",
   "author": "Nao Yonamine <mohayonao@gmail.com>",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "babel": "^5.8.29",
+    "babel-eslint": "^4.1.5",
+    "eslint": "^1.9.0",
+    "espower-babel": "^3.3.0",
+    "isparta": "^3.5.3",
+    "mocha": "^2.3.3",
+    "power-assert": "^1.1.0",
+    "sinon": "^1.17.2"
+  },
   "main": "index.js",
-  "private": true
+  "private": true,
+  "scripts": {
+    "build": "npm run build:to5",
+    "build:to5": "babel src --out-dir lib",
+    "cover": "babel-node $(npm bin)/isparta cover --report text --report html _mocha",
+    "lint": "eslint src test",
+    "prepublish": "rm -rf lib && npm run lint && npm run test && npm run build:to5",
+    "test": "mocha --compilers js:espower-babel/guess",
+    "travis": "npm run lint && npm run test"
+  }
 }
