@@ -1,7 +1,3 @@
-function toArray(value) {
-  return Array.isArray(value) ? value : [ value ];
-}
-
 function toTypedScalarValue(value) {
   if (value == null) {
     return { type: "int", value: 0 };
@@ -25,28 +21,18 @@ function toTypedScalarValue(value) {
     if (/^[-+]?\d+$/.test(value)) {
       return { type: "int", value: +value };
     }
+    if (/^".*"/.test(value)) {
+      return { type: "symbol", value: value.slice(1, -1) };
+    }
     return { type: "symbol", value: value };
   }
 
-  if (typeof value === "object") {
-    if (value.type === "bang") {
-      return { type: "bang", value: "bang" };
-    }
-    if (value.type === "int") {
-      return { type: "int", value: +value.value|0 };
-    }
-    if (value.type === "float") {
-      return { type: "float", value: +value.value };
-    }
-    if (value.type === "symbol") {
-      return { type: "symbol", value: "" + value.value };
-    }
-    if (value.type === "list") {
-      return { type: "list", value: toArray(value.value).map(toTypedScalarValue) };
-    }
+  if (typeof value === "object" && typeof value.type === "string") {
+    return { type: value.type, value: value.value };
   }
 
-  return { type: "bang", value: "bang" };
+  // FIXME: !!??
+  return { type: "int", value: 0 };
 }
 
 export default function toTypedValue(value) {

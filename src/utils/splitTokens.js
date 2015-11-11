@@ -1,3 +1,6 @@
 export default function splitTokens(str) {
-  return str.match(/(".*?"|[^"\s]+)/g);
+  if (str == null) {
+    return [];
+  }
+  return str.match(/(".*?"|[^"\s]+)/g) || [];
 }
