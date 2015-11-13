@@ -25,8 +25,8 @@
 - `1 2`: list [ int int ]
 - `1 2.`: list [ int float ]
 - `list 1 2`: list [ int int ]
-- `list 1`: ???
-- `list 1 list 2 3`: ??
+- `list 1`: int
+- `list 1 list 2 3`: [ int int int ]
 
 ### prepend
 
@@ -38,13 +38,13 @@
   - `[ { type: "int", value: 1 } ]` => `[ { type: "bang", value: "bang" } ]`
 - `1 | prepend 2`: list [ 1 2 ]
   - `[ { type: "int", value: 1 } ]` => `[ { type: "int", value: 1 }, { type: "int", value: 2 } ]`
-- `1 | prepend float 2`: ??
+- `1 | prepend float 2`: ERROR -> 2.
   - `[ { type: "int", value: 1 } ]` => `[ { type: "int", value: 1 }, { type: "float", value: 2 } ]`
 - `1 | prepend set`: set 1
   - `[ { type: "int", value: 1 } ]` => `[ { type: "symbol", value: "set" }, { type: "int", value: 2 } ]`
-- `1 2 | prepend float`: ??
+- `1 2 | prepend float`: ERROR -> 1.
 
 ### zl.slice
 
-- `1 2 a | zl.slice 2`: list / symbol ?
-- `int 1 | prepend float | zl.slice 1`: int or float?
+- `1 2 a | zl.slice 2`: [ 1, 2 ] / a
+- `int 1 | prepend float | zl.slice 1`: 1.
