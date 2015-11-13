@@ -25,7 +25,7 @@
 - `1 2`: list [ int int ]
 - `1 2.`: list [ int float ]
 - `list 1 2`: list [ int int ]
-- `list 1`: int
+- `list 1`: [ int ]
 - `list 1 list 2 3`: [ int int int ]
 
 ### prepend
