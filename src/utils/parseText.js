@@ -17,16 +17,10 @@ export default function parseText(text) {
     let list = [];
 
     while (tokens[index] && tokens[index][0] !== "@") {
-      list.push(tokens[index++]);
+      list.push(TypedValue.from(tokens[index++]));
     }
 
-    if (list.length === 0) {
-      attrs[key] = TypedValue.from(0);
-    } else if (list.length === 1) {
-      attrs[key] = TypedValue.from(list[0]);
-    } else {
-      attrs[key] = TypedValue.from(list);
-    }
+    attrs[key] = list;
   }
 
   return { klassName, args, attrs };

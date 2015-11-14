@@ -32,7 +32,7 @@ describe("utils", () => {
         klassName: "cycle~",
         args: [],
         attrs: {
-          frequency: { type: "float", value: 0 }
+          frequency: []
         }
       });
     });
@@ -41,9 +41,9 @@ describe("utils", () => {
         klassName: "jit.brcosa",
         args: [],
         attrs: {
-          brightness: { type: "float", value: 0.5 },
-          contrast: { type: "float", value: 2.0 },
-          saturation: { type: "float", value: 0.7 }
+          brightness: [ { type: "float", value: 0.5 } ],
+          contrast: [ { type: "float", value: 2.0 } ],
+          saturation: [ { type: "float", value: 0.7 } ]
         }
       });
     });
@@ -57,15 +57,12 @@ describe("utils", () => {
           { type: "int", value: 240 }
         ],
         attrs: {
-          "planemap": {
-            type: "list",
-            value: [
-              { type: "int", value: 0 },
-              { type: "int", value: 3 },
-              { type: "int", value: 2 },
-              { type: "int", value: 1 }
-            ]
-          }
+          "planemap": [
+            { type: "int", value: 0 },
+            { type: "int", value: 3 },
+            { type: "int", value: 2 },
+            { type: "int", value: 1 }
+          ]
         }
       });
     });
