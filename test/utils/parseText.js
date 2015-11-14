@@ -52,7 +52,7 @@ describe("utils", () => {
         klassName: "jit.matrix",
         args: [
           { type: "int", value: 4 },
-          { type: "symbol", value: "char" },
+          { type: "string", value: "char" },
           { type: "int", value: 320 },
           { type: "int", value: 240 }
         ],

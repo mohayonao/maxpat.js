@@ -18,8 +18,8 @@ export default class TypedValue {
     if (type === "float") {
       return new TypedValue("float", +this.value || 0);
     }
-    if (type === "symbol") {
-      return new TypedValue("symbol", this.toString());
+    if (type === "string") {
+      return new TypedValue("string", this.toString());
     }
     return new TypedValue("int", 0);
   }
@@ -71,7 +71,7 @@ export default class TypedValue {
       if (/^[-+]?\d+$/.test(value)) {
         return new TypedValue("int", +value);
       }
-      return new TypedValue("symbol", value.replace(/^"(.*?)"$/, "$1"));
+      return new TypedValue("string", value.replace(/^"(.*?)"$/, "$1"));
     }
 
     return new TypedValue("int", 0);
