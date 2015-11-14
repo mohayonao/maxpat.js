@@ -15,11 +15,23 @@ function s(value) {
 }
 
 describe("MaxMessage", () => {
-  describe("constructor(values: TypedValue[])", () => {
+  describe("constructor(items: TypedValue[])", () => {
     it("works", () => {
-      let msg = new MaxMessage([ i(1) ]);
+      let items = [ i(1) ];
+      let msg = new MaxMessage(items);
 
       assert(msg instanceof MaxMessage);
+      assert(msg.items === items);
+    });
+    it("works: float 1", () => {
+      let msg = new MaxMessage([ s("float"), i(1) ]);
+
+      assert.deepEqual(msg, new MaxMessage([ f(1) ]));
+    });
+    it("works: float int float 1", () => {
+      let msg = new MaxMessage([ s("float"), s("int"), s("float"), i(1) ]);
+
+      assert.deepEqual(msg, new MaxMessage([ f(1) ]));
     });
   });
   describe("#getType(): string", () => {
@@ -34,7 +46,7 @@ describe("MaxMessage", () => {
       assert(msg.getType() === "float");
     });
     it("works with list", () => {
-      let msg = new MaxMessage([ i(1), f(2) ]);
+      let msg = new MaxMessage([ s("list"), i(1), f(2) ]);
 
       assert(msg.getType() === "list");
     });
@@ -66,7 +78,7 @@ describe("MaxMessage", () => {
       assert.deepEqual(msg.getValues(), [ f(2) ]);
     });
     it("works with list", () => {
-      let msg = new MaxMessage([ i(1), f(2) ]);
+      let msg = new MaxMessage([ s("list"), i(1), f(2) ]);
 
       assert.deepEqual(msg.getValues(), [ i(1), f(2) ]);
     });
@@ -86,6 +98,38 @@ describe("MaxMessage", () => {
       assert.deepEqual(msg.getValues(), [ i(100) ]);
     });
   });
+  describe("#getRawValues(): TypedValue[]", () => {
+    it("works with int", () => {
+      let msg = new MaxMessage([ i(1) ]);
+
+      assert.deepEqual(msg.getRawValues(), [ 1 ]);
+    });
+    it("works with float", () => {
+      let msg = new MaxMessage([ f(2) ]);
+
+      assert.deepEqual(msg.getRawValues(), [ 2 ]);
+    });
+    it("works with list", () => {
+      let msg = new MaxMessage([ s("list"), i(1), f(2) ]);
+
+      assert.deepEqual(msg.getRawValues(), [ 1, 2 ]);
+    });
+    it("works with bang", () => {
+      let msg = new MaxMessage([ s("bang") ]);
+
+      assert.deepEqual(msg.getRawValues(), []);
+    });
+    it("works with clear", () => {
+      let msg = new MaxMessage([ s("clear") ]);
+
+      assert.deepEqual(msg.getRawValues(), []);
+    });
+    it("works with string list", () => {
+      let msg = new MaxMessage([ s("set"), i(100) ]);
+
+      assert.deepEqual(msg.getRawValues(), [ 100 ]);
+    });
+  });
   describe("#toString(): string", () => {
     it("works with int", () => {
       let msg = new MaxMessage([ i(1) ]);
@@ -98,7 +142,7 @@ describe("MaxMessage", () => {
       assert(msg.toString() === "2.0");
     });
     it("works with list", () => {
-      let msg = new MaxMessage([ i(1), f(2) ]);
+      let msg = new MaxMessage([ s("list"), i(1), f(2) ]);
 
       assert(msg.toString() === "[ 1, 2.0 ]");
     });
@@ -130,7 +174,7 @@ describe("MaxMessage", () => {
       assert(msg.valueOf() === 2);
     });
     it("works with list", () => {
-      let msg = new MaxMessage([ i(1), f(2) ]);
+      let msg = new MaxMessage([ s("list"), i(1), f(2) ]);
 
       assert.deepEqual(msg.valueOf(), [ 1, 2 ]);
     });
@@ -166,7 +210,7 @@ describe("MaxMessage", () => {
       });
     });
     it("works with list", () => {
-      let msg = new MaxMessage([ i(1), f(2) ]);
+      let msg = new MaxMessage([ s("list"), i(1), f(2) ]);
 
       assert.deepEqual(msg.toJSON(), {
         type: "list", values: [ { type: "int", value: 1 }, { type: "float", value: 2 } ]
