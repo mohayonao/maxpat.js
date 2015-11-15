@@ -3,7 +3,11 @@
   "description": "experimental project",
   "version": "0.0.0",
   "author": "Nao Yonamine <mohayonao@gmail.com>",
-  "dependencies": {},
+  "dependencies": {
+    "lodash.findindex": "^3.2.1",
+    "lodash.isequal": "^3.0.4",
+    "lodash.range": "^3.0.1"
+  },
   "devDependencies": {
     "babel": "^5.8.29",
     "babel-eslint": "^4.1.5",

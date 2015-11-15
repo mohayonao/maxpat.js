@@ -1,4 +1,4 @@
-import { EventEmitter } from "evetns";
+import EventEmitter from "./EventEmitter";
 import Database from "./Database";
 
 export default class MaxPatch extends EventEmitter {

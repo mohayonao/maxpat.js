@@ -1,6 +1,4 @@
-
-import appendIfNotExists from "./utils/appendIfNotExists";
-import removeIfExists from "./utils/removeIfExists";
+import _findIndex from "lodash.findindex";
 
 export default class Database {
   constructor() {
@@ -13,15 +11,23 @@ export default class Database {
   }
 
   addElement(element) {
-    if (appendIfNotExists(this.elements, element)) {
-      this.indexes[element.id] = element;
+    let index = _findIndex(this.elements, elem => elem.id === element.id);
+
+    if (index === -1) {
+      this.elements.push(element);
     }
+
+    this.indexes[element.id] = element;
   }
 
   removeElement(element) {
-    if (removeIfExists(this.elements, element)) {
-      this.indexes[element.id] = null;
+    let index = _findIndex(this.elements, elem => elem.id === element.id);
+
+    if (index !== -1) {
+      this.elements.splice(index, 1);
     }
+
+    this.indexes[element.id] = null;
   }
 
   getElementById(id) {
