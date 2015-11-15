@@ -58,6 +58,10 @@ export default class MaxMessage {
   }
 }
 
+export function m(values) {
+  return new MaxMessage(values);
+}
+
 function isNumberType(type) {
   return type === "int" || type === "float";
 }

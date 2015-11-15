@@ -1,18 +1,6 @@
 import assert from "power-assert";
 import MaxMessage from "../src/MaxMessage";
-import TypedValue from "../src/TypedValue";
-
-function i(value) {
-  return new TypedValue("int", value);
-}
-
-function f(value) {
-  return new TypedValue("float", value);
-}
-
-function s(value) {
-  return new TypedValue("string", value);
-}
+import { i, f, s } from "../src/TypedValue";
 
 describe("MaxMessage", () => {
   describe("constructor(items: TypedValue[])", () => {

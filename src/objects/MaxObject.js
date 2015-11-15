@@ -49,7 +49,7 @@ export default class MaxObject extends EventEmitter {
     let targets = this._connections.filter(conn => conn.outlet === outlet);
 
     for (let i = targets.length - 1; i >= 0; i--) {
-      targets.destination.recvMessage(targets.inlet, message);
+      targets[i].destination.recvMessage(targets[i].inlet, message);
     }
   }
 

@@ -1,5 +1,6 @@
 import assert from "power-assert";
 import TypedValue from "../src/TypedValue";
+import { i, f, s } from "../src/TypedValue";
 
 describe("TypedValue", () => {
   describe("constructor(type: string, value: any)", () => {
@@ -100,6 +101,27 @@ describe("TypedValue", () => {
       assert.deepEqual(TypedValue.from("'10'"), new TypedValue("string", "'10'"));
       assert.deepEqual(TypedValue.from(() => {}), new TypedValue("int", 0));
       assert.deepEqual(TypedValue.from(new TypedValue("int", 10)), new TypedValue("int", 10));
+    });
+  });
+  describe(".i(value: number): TypedValue", () => {
+    it("works", () => {
+      assert.deepEqual(i(1), new TypedValue("int", 1));
+      assert.deepEqual(i(1.5), new TypedValue("int", 1));
+      assert.deepEqual(i("nan"), new TypedValue("int", 0));
+    });
+  });
+  describe(".f(value: number): TypedValue", () => {
+    it("works", () => {
+      assert.deepEqual(f(1), new TypedValue("float", 1));
+      assert.deepEqual(f(1.5), new TypedValue("float", 1.5));
+      assert.deepEqual(f("nan"), new TypedValue("float", 0));
+    });
+  });
+  describe(".s(value: number): TypedValue", () => {
+    it("works", () => {
+      assert.deepEqual(s(1), new TypedValue("string", "1"));
+      assert.deepEqual(s(1.5), new TypedValue("string", "1.5"));
+      assert.deepEqual(s("nan"), new TypedValue("string", "nan"));
     });
   });
 });

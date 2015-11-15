@@ -77,3 +77,15 @@ export default class TypedValue {
     return new TypedValue("int", 0);
   }
 }
+
+export function i(value) {
+  return new TypedValue("int", +value|0);
+}
+
+export function f(value) {
+  return new TypedValue("float", +value || 0);
+}
+
+export function s(value) {
+  return new TypedValue("string", "" + value);
+}

@@ -1,14 +1,17 @@
 import MaxObject from "../MaxObject";
-import TypedValue from "../../TypedValue";
+import { i } from "../../TypedValue";
+import { m } from "../../MaxMessage";
 import toNumber from "../../utils/toNumber";
 
-export default class IntMaxObject extends MaxObject {
-  initialize(args) {
-    this._update(args[0]);
+export default class MaxIntObject extends MaxObject {
+  initialize(opts) {
+    this._update(opts.args[0]);
   }
 
-  ["/bang"]() {
-    this._emit();
+  ["/bang"](inlet) {
+    if (inlet === 0) {
+      this._emit();
+    }
   }
 
   ["/int"](inlet, value) {
@@ -35,10 +38,10 @@ export default class IntMaxObject extends MaxObject {
   // }
 
   _update(value) {
-    this._storedValue = new TypedValue("int", toNumber(value)|0);
+    this._storedValue = i(toNumber(value));
   }
 
   _emit() {
-    this.sendMessage(0, [ this._storedValue ]);
+    this.sendMessage(0, m([ this._storedValue ]));
   }
 }
