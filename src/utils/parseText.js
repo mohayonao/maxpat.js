@@ -4,7 +4,7 @@ import TypedValue from "../TypedValue";
 export default function parseText(text) {
   let tokens = splitTokens(text);
   let index = 1;
-  let klassName = tokens[0] || "";
+  let tagName = tokens[0] || "";
   let args = [];
   let attrs = {};
 
@@ -23,5 +23,5 @@ export default function parseText(text) {
     attrs[key] = list;
   }
 
-  return { klassName, args, attrs };
+  return { tagName, args, attrs };
 }

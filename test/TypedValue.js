@@ -42,6 +42,8 @@ describe("TypedValue", () => {
       assert.deepEqual(new TypedValue("string", "30").to("float"), new TypedValue("float", 30));
       assert.deepEqual(new TypedValue("string", "30").to("string"), new TypedValue("string", "30"));
       assert.deepEqual(new TypedValue("string", "30").to("unknown"), new TypedValue("int", 0));
+      assert.deepEqual(new TypedValue("string", "nan").to("int"), new TypedValue("int", 0));
+      assert.deepEqual(new TypedValue("string", "nan").to("float"), new TypedValue("float", 0));
     });
   });
   describe("#equals(other: TypedValue): boolean", () => {
@@ -60,6 +62,7 @@ describe("TypedValue", () => {
       assert(new TypedValue("int", 10).toNumber() === 10);
       assert(new TypedValue("float", 20).toNumber() === 20);
       assert(new TypedValue("string", "30").toNumber() === 30);
+      assert(new TypedValue("string", "nan").toNumber() === 0);
     });
   });
   describe("#toString()", () => {

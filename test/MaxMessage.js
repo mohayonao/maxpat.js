@@ -23,6 +23,11 @@ describe("MaxMessage", () => {
       assert(msg instanceof MaxMessage);
       assert(msg.items === items);
     });
+    it("works: 1 2.", () => {
+      let msg = new MaxMessage([ i(1), f(2) ]);
+
+      assert.deepEqual(msg, new MaxMessage([ s("list"), i(1), f(2) ]));
+    });
     it("works: float 1", () => {
       let msg = new MaxMessage([ s("float"), i(1) ]);
 
