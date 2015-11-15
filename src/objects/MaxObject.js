@@ -56,14 +56,12 @@ export default class MaxObject extends EventEmitter {
   recvMessage(inlet, message) {
     if (0 <= inlet && inlet <= this.numOfInlets) {
       let type = message.getType();
-      let values = message.getValues();
       let address = `/${type}`;
 
-      if (typeof this[address] !== "function") {
-        address = "/anything";
-      }
       if (typeof this[address] === "function") {
-        this[address](inlet, values);
+        this[address](inlet, message.getValues());
+      } else if (typeof this["/anything"] === "function") {
+        this["/anything"](inlet, message.items);
       }
     }
   }

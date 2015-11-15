@@ -1,10 +1,10 @@
 import MaxObject from "../MaxObject";
-import { i } from "../../TypedValue";
+import { f } from "../../TypedValue";
 import { m } from "../../MaxMessage";
 import toNumber from "../../utils/toNumber";
 import toString from "../../utils/toString";
 
-export default class MaxIntObject extends MaxObject {
+export default class MaxFloatObject extends MaxObject {
   initialize(opts) {
     this._update(opts.args[0]);
   }
@@ -44,12 +44,12 @@ export default class MaxIntObject extends MaxObject {
 
   ["/send"](inlet, values) {
     if (inlet === 0) {
-      this.patcher.sendMessage(toString(values[0]), m([ this._storedValue ]));
+      this.patcher.sendMessage(toString(values[0]), m([ this._storedValue ]))
     }
   }
 
   _update(value) {
-    this._storedValue = i(toNumber(value));
+    this._storedValue = f(toNumber(value));
   }
 
   _emit() {
