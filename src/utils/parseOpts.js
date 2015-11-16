@@ -13,7 +13,7 @@ export default function parseOpts(_opts) {
   opts.id = _opts.id;
   opts.numOfInlets = _opts.numinlets|0;
   opts.numOfOutlets = _opts.numoutlets|0;
-  opts.outletTypes = _opts.outlettype;
+  opts.outletTypes = _opts.outlettype || [];
   opts.patchingRect = _opts.patching_rect;
 
   return opts;
