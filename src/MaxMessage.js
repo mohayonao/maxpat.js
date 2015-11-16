@@ -86,7 +86,3 @@ function optimize(value) {
 
   return value;
 }
-
-export function $m(values) {
-  return new MaxMessage(values);
-}

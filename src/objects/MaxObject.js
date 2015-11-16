@@ -1,4 +1,5 @@
 import EventEmitter from "../EventEmitter";
+import MaxMessage from "../MaxMessage";
 import _findIndex from "lodash.findindex";
 import _isEqual from "lodash.isequal";
 
@@ -48,6 +49,10 @@ export default class MaxObject extends EventEmitter {
   sendMessage(outlet, message) {
     let targets = this._connections.filter(conn => conn.outlet === outlet);
 
+    if (!(message instanceof MaxMessage)) {
+      message = new MaxMessage(message);
+    }
+
     for (let i = targets.length - 1; i >= 0; i--) {
       targets[i].destination.recvMessage(targets[i].inlet, message);
     }
@@ -55,6 +60,10 @@ export default class MaxObject extends EventEmitter {
 
   recvMessage(inlet, message) {
     if (0 <= inlet && inlet <= this.numOfInlets) {
+      if (!(message instanceof MaxMessage)) {
+        message = new MaxMessage(message);
+      }
+
       let type = message.getType();
       let address = `/${type}`;
 

@@ -1,6 +1,5 @@
 import MaxObject from "../MaxObject";
 import { $i } from "../../TypedValue";
-import { $m } from "../../MaxMessage";
 import toNumber from "../../utils/toNumber";
 import toString from "../../utils/toString";
 
@@ -44,7 +43,7 @@ export default class MaxIntObject extends MaxObject {
 
   ["/send"](inlet, values) {
     if (inlet === 0) {
-      this.patcher.sendMessage(toString(values[1]), $m(this._storedValue));
+      this.patcher.sendMessage(toString(values[1]), this._storedValue);
     }
   }
 
@@ -53,6 +52,6 @@ export default class MaxIntObject extends MaxObject {
   }
 
   _emit() {
-    this.sendMessage(0, $m(this._storedValue));
+    this.sendMessage(0, this._storedValue);
   }
 }

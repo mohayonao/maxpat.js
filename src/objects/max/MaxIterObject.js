@@ -1,5 +1,5 @@
 import MaxObject from "../MaxObject";
-import { $m } from "../../MaxMessage";
+import toArray from "../../utils/toArray";
 
 export default class MaxIterObject extends MaxObject {
   initialize() {
@@ -14,11 +14,7 @@ export default class MaxIterObject extends MaxObject {
 
   ["/anything"](inlet, values) {
     if (inlet === 0) {
-      if (Array.isArray(values)) {
-        this._storedValue = values;
-      } else {
-        this._storedValue = [ values ];
-      }
+      this._storedValue = toArray(values);
       this._emit();
     }
   }
@@ -28,7 +24,7 @@ export default class MaxIterObject extends MaxObject {
       let storedValue = this._storedValue;
 
       for (let i = 0, imax = storedValue.length; i < imax; i++) {
-        this.sendMessage(0, $m(storedValue[i]));
+        this.sendMessage(0, storedValue[i]);
       }
     }
   }
