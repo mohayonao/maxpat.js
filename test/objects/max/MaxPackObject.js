@@ -34,7 +34,7 @@ describe("[ pack 0 0. sym ]", () => {
   });
   describe("/bang", () => {
     it("Output currently stored list", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
@@ -43,7 +43,7 @@ describe("[ pack 0 0. sym ]", () => {
   });
   describe("/int", () => {
     it("1st inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $i(10));
       assert(spy.callCount === 1);
@@ -54,7 +54,7 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(0), $s("sym") ] ]);
     });
     it("2nd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(1, $i(20));
       assert(spy.callCount === 0);
@@ -64,7 +64,7 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(20), $s("sym") ] ]);
     });
     it("3rd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(2, $i(30));
       assert(spy.callCount === 0);
@@ -76,7 +76,7 @@ describe("[ pack 0 0. sym ]", () => {
   });
   describe("/float", () => {
     it("1st inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $f(10));
       assert(spy.callCount === 1);
@@ -87,7 +87,7 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(0), $s("sym") ] ]);
     });
     it("2nd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(1, $f(20));
       assert(spy.callCount === 0);
@@ -97,7 +97,7 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(20), $s("sym") ] ]);
     });
     it("3rd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(2, $f(30));
       assert(spy.callCount === 0);
@@ -109,7 +109,7 @@ describe("[ pack 0 0. sym ]", () => {
   });
   describe("/symbol", () => {
     it("1st inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $s("foo"));
       assert(spy.callCount === 1);
@@ -120,7 +120,7 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("sym") ] ]);
     });
     it("2nd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(1, $s("bar"));
       assert(spy.callCount === 0);
@@ -130,7 +130,7 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("sym") ] ]);
     });
     it("3rd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(2, $s("baz"));
       assert(spy.callCount === 0);
@@ -142,7 +142,7 @@ describe("[ pack 0 0. sym ]", () => {
   });
   describe("/list", () => {
     it("1st inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, [ $i(10), $f(20) ]);
       assert(spy.callCount === 1);
@@ -153,7 +153,7 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(20), $s("sym") ] ]);
     });
     it("2nd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(1, [ $i(10), $f(20) ]);
       assert(spy.callCount === 0);
@@ -163,7 +163,7 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(10), $s("20") ] ]);
     });
     it("3rd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(2, [ $i(10), $f(20) ]);
       assert(spy.callCount === 0);
@@ -175,7 +175,7 @@ describe("[ pack 0 0. sym ]", () => {
   });
   describe("/set", () => {
     it("1st inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, [ $s("set"), $i(10) ]);
       assert(spy.callCount === 0);
@@ -185,7 +185,7 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(0), $s("sym") ] ]);
     });
     it("2nd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(1, [ $s("set"), $i(20) ]);
       assert(spy.callCount === 0);
@@ -195,7 +195,7 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(20), $s("sym") ] ]);
     });
     it("3rd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(2, [ $s("set"), $i(30) ]);
       assert(spy.callCount === 0);
@@ -207,7 +207,7 @@ describe("[ pack 0 0. sym ]", () => {
   });
   describe("/nth", () => {
     it("1st inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, [ $s("nth"), $i(0) ]);
       assert(spy.callCount === 0);
@@ -217,14 +217,14 @@ describe("[ pack 0 0. sym ]", () => {
       assert.deepEqual(spy.args[0], [ 0, $i(0) ]);
     });
     it("2nd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(1, [ $s("nth"), $i(2) ]);
       assert(spy.callCount === 1);
       assert.deepEqual(spy.args[0], [ 0, $f(0) ]);
     });
     it("3rd inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(2, [ $s("nth"), $i(3) ]);
       assert(spy.callCount === 1);
@@ -233,7 +233,7 @@ describe("[ pack 0 0. sym ]", () => {
   });
   describe("/send", () => {
     it("In left inlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, [ $s("send"), $s("goom") ]);
       assert(spy.callCount === 0);

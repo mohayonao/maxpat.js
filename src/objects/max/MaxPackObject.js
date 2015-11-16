@@ -55,7 +55,14 @@ export default class MaxPackObject extends MaxObject {
     });
   }
 
-  ["/anything"](inlet, values) {
+  ["/symbol"](inlet, values) {
+    this._update(inlet, values[1]);
+    if (inlet === 0) {
+      this._emit();
+    }
+  }
+
+  ["/:else"](inlet, values) {
     this._update(inlet, values[0]);
     if (inlet === 0) {
       this._emit();

@@ -34,7 +34,7 @@ describe("[ button ]", () => {
   });
   describe("/anything", () => {
     it("When any message is received in the inlet, button flashes briefly and a bang is sent out the outlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);

@@ -10,7 +10,7 @@ export default class MaxIterObject extends MaxObject {
     this._emit();
   }
 
-  ["/anything"](inlet, values) {
+  ["/:else"](inlet, values) {
     this._storedValue = toArray(values);
     this._emit();
   }

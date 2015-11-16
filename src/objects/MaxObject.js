@@ -68,7 +68,7 @@ export default class MaxObject extends EventEmitter {
       let address = `/${type}`;
 
       if (typeof this[address] !== "function") {
-        address = "/anything";
+        address = "/:else";
       }
 
       if (typeof this[address] === "function") {

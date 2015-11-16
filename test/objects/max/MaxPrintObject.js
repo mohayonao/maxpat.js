@@ -34,9 +34,9 @@ describe("[ print argument @popup 1 ]", () => {
       test.connect(recv, i, i);
     }
   });
-  describe("/anything", () => {
+  describe("/:else", () => {
     it("Messages are not interpreted by the print object. They are simply printed verbatim in the Max Console", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, [ $s("hello"), $s("world") ]);
       assert(spy.callCount === 0);

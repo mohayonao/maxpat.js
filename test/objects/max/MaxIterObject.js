@@ -34,7 +34,7 @@ describe("[ iter ]", () => {
   });
   describe("/bang", () => {
     it("In left inlet: Sends the number or list most recently received, in sequential order", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 0);
@@ -42,7 +42,7 @@ describe("[ iter ]", () => {
   });
   describe("/int", () => {
     it("In left inlet: The number is sent out the outlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $i(10));
       assert(spy.callCount === 1);
@@ -55,7 +55,7 @@ describe("[ iter ]", () => {
   });
   describe("/float", () => {
     it("In left inlet: The number is sent out the outlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $f(10));
       assert(spy.callCount === 1);
@@ -68,7 +68,7 @@ describe("[ iter ]", () => {
   });
   describe("/list", () => {
     it("In left inlet: The numbers in the list are sent out the outlet in sequential order", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, [ $i(10), $f(10) ]);
       assert(spy.callCount === 2);
@@ -81,9 +81,9 @@ describe("[ iter ]", () => {
       assert.deepEqual(spy.args[3], [ 0, $f(10) ]);
     });
   });
-  describe("/anything", () => {
+  describe("/:else", () => {
     it("In left inlet: See the list entry", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, [ $s("set"), $i(10) ]);
       assert(spy.callCount === 2);

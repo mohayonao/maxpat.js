@@ -34,7 +34,7 @@ describe("[ int 74 ]", () => {
   });
   describe("/bang", () => {
     it("In left inlet: Sends the stored value out the outlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
@@ -43,7 +43,7 @@ describe("[ int 74 ]", () => {
   });
   describe("/int", () => {
     it("In left inlet: The number replaces the currently stored value and is sent out the outlet", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $i(10));
       assert(spy.callCount === 1);
@@ -54,7 +54,7 @@ describe("[ int 74 ]", () => {
       assert.deepEqual(spy.args[1], [ 0, $i(10) ]);
     });
     it("In right inlet: The number replaces the stored value without triggering output", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(1, $i(10));
       assert(spy.callCount === 0);
@@ -66,7 +66,7 @@ describe("[ int 74 ]", () => {
   });
   describe("/float", () => {
     it("In left inlet: Converted to int", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, $f(10));
       assert(spy.callCount === 1);
@@ -77,7 +77,7 @@ describe("[ int 74 ]", () => {
       assert.deepEqual(spy.args[1], [ 0, $i(10) ]);
     });
     it("In right inlet: Converted to int", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(1, $f(10));
       assert(spy.callCount === 0);
@@ -89,7 +89,7 @@ describe("[ int 74 ]", () => {
   });
   describe("/send", () => {
     it("In left inlet: The word send, followed by the name of a receive object, sends the value stored in int to all receive objects with that name, without sending it out the outlet of the int", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, [ $s("send"), $s("goom") ]);
       assert(spy.callCount === 0);
@@ -99,7 +99,7 @@ describe("[ int 74 ]", () => {
   });
   describe("/set 10", () => {
     it("In left inlet: The word set , followed by a number, replaces the stored value without triggering output", () => {
-      let spy = recv["/anything"] = sinon.spy();
+      let spy = recv["/:else"] = sinon.spy();
 
       send.sendMessage(0, [ $s("set"), $i(10) ]);
       assert(spy.callCount === 0);

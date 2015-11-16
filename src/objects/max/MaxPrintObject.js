@@ -9,7 +9,7 @@ export default class MaxPrintObject extends MaxObject {
     this._popup = toNumber(defaults(opts.attrs.popup, 0));
   }
 
-  ["/anything"](inlet, values) {
+  ["/:else"](inlet, values) {
     let id = this._id;
     let popup = this._popup;
     let value = values.map(value => value.toString()).join(" ");
