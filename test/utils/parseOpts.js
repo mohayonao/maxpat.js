@@ -1,18 +1,6 @@
 import assert from "power-assert";
 import parseOpts from "../../src/utils/parseOpts";
-import TypedValue from "../../src/TypedValue";
-
-function i(value) {
-  return new TypedValue("int", value);
-}
-
-function f(value) {
-  return new TypedValue("float", value);
-}
-
-function s(value) {
-  return new TypedValue("string", value);
-}
+import { $i, $f, $s } from "../../src/TypedValue";
 
 describe("utils", () => {
   describe("parseOpts(_opts: object): object", () => {
@@ -81,7 +69,7 @@ describe("utils", () => {
 
       assert(opts.id === "obj-11");
       assert(opts.tagName === "abs");
-      assert.deepEqual(opts.args, [ f(0) ]);
+      assert.deepEqual(opts.args, [ $f(0) ]);
       assert.deepEqual(opts.attrs, {});
       assert(opts.numOfInlets === 1);
       assert(opts.numOfOutlets === 1);
@@ -153,10 +141,10 @@ describe("utils", () => {
 
       assert(opts.id === "obj-4");
       assert(opts.tagName === "jit.matrix");
-      assert.deepEqual(opts.args, [ i(4), s("char"), i(320), i(240) ]);
+      assert.deepEqual(opts.args, [ $i(4), $s("char"), $i(320), $i(240) ]);
       assert.deepEqual(opts.attrs, {
-        srcdimstart: [ i(320), i(0) ],
-        srcdimend: [ i(0), i(240) ]
+        srcdimstart: [ $i(320), $i(0) ],
+        srcdimend: [ $i(0), $i(240) ]
       });
       assert(opts.numOfInlets === 1);
       assert(opts.numOfOutlets === 2);

@@ -1,5 +1,5 @@
 import MaxObject from "../MaxObject";
-import { m } from "../../MaxMessage";
+import { $m } from "../../MaxMessage";
 
 export default class MaxIterObject extends MaxObject {
   initialize() {
@@ -31,7 +31,7 @@ export default class MaxIterObject extends MaxObject {
       let storedValue = this._storedValue;
 
       for (let i = 0, imax = storedValue.length; i < imax; i++) {
-        this.sendMessage(0, m([ storedValue[i] ]));
+        this.sendMessage(0, $m([ storedValue[i] ]));
       }
     }
   }

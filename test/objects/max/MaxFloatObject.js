@@ -2,8 +2,8 @@ import assert from "power-assert";
 import sinon from "sinon";
 import MaxObject from "../../../src/objects/MaxObject";
 import MaxFloatObject from "../../../src/objects/max/MaxFloatObject";
-import { i, f, s } from "../../../src/TypedValue";
-import { m } from "../../../src/MaxMessage";
+import { $i, $f, $s } from "../../../src/TypedValue";
+import { $m } from "../../../src/MaxMessage";
 
 const opts = {
   "id": "obj-28",
@@ -13,7 +13,7 @@ const opts = {
   "numOfOutlets": 1,
   "outletTypes": [ "float" ],
   "patchingRect": [ 12, 380, 58, 23 ],
-  "args": [ f(7.4) ],
+  "args": [ $f(7.4) ],
   "attrs": {}
 };
 
@@ -37,15 +37,15 @@ describe("objects/max/MaxFloatObject", () => {
     it("In left inlet: Sends the stored value out the outlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(0, m([ s("bang") ]));
+      send.sendMessage(0, $m([ $s("bang") ]));
       assert(spy.callCount === 1);
       assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], [ f(7.4) ]);
+      assert.deepEqual(spy.args[0][1], [ $f(7.4) ]);
     });
     it("In right inlet: ignored", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(1, m([ s("bang") ]));
+      send.sendMessage(1, $m([ $s("bang") ]));
       assert(spy.callCount === 0);
     });
   });
@@ -53,82 +53,82 @@ describe("objects/max/MaxFloatObject", () => {
     it("In left inlet: Converted to float", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(0, m([ i(10) ]));
+      send.sendMessage(0, $m([ $i(10) ]));
       assert(spy.callCount === 1);
       assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], [ f(10) ]);
+      assert.deepEqual(spy.args[0][1], [ $f(10) ]);
 
-      send.sendMessage(0, m([ s("bang") ]));
+      send.sendMessage(0, $m([ $s("bang") ]));
       assert(spy.callCount === 2);
       assert(spy.args[1][0] === 0);
-      assert.deepEqual(spy.args[1][1], [ f(10) ]);
+      assert.deepEqual(spy.args[1][1], [ $f(10) ]);
     });
     it("In right inlet: Converted to float", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(1, m([ i(10) ]));
+      send.sendMessage(1, $m([ $i(10) ]));
       assert(spy.callCount === 0);
 
-      send.sendMessage(0, m([ s("bang") ]));
+      send.sendMessage(0, $m([ $s("bang") ]));
       assert(spy.callCount === 1);
       assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], [ f(10) ]);
+      assert.deepEqual(spy.args[0][1], [ $f(10) ]);
     });
   });
   describe("/float", () => {
     it("In left inlet: The number replaces the currently stored value and is sent out the outlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(0, m([ f(10) ]));
+      send.sendMessage(0, $m([ $f(10) ]));
       assert(spy.callCount === 1);
       assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], [ f(10) ]);
+      assert.deepEqual(spy.args[0][1], [ $f(10) ]);
 
-      send.sendMessage(0, m([ s("bang") ]));
+      send.sendMessage(0, $m([ $s("bang") ]));
       assert(spy.callCount === 2);
       assert(spy.args[1][0] === 0);
-      assert.deepEqual(spy.args[1][1], [ f(10) ]);
+      assert.deepEqual(spy.args[1][1], [ $f(10) ]);
     });
     it("In right inlet: The number replaces the stored value without triggering output", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(1, m([ f(10) ]));
+      send.sendMessage(1, $m([ $f(10) ]));
       assert(spy.callCount === 0);
 
-      send.sendMessage(0, m([ s("bang") ]));
+      send.sendMessage(0, $m([ $s("bang") ]));
       assert(spy.callCount === 1);
       assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], [ f(10) ]);
+      assert.deepEqual(spy.args[0][1], [ $f(10) ]);
     });
   });
   describe("/send", () => {
     it("The word send, followed by a name of a receive object, sends the number stored in the float object to all receive objects with that name, without sending it out the float object's outlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(0, m([ s("send"), s("goom") ]));
+      send.sendMessage(0, $m([ $s("send"), $s("goom") ]));
       assert(spy.callCount === 0);
       assert(patcher.sendMessage.callCount === 1);
 
       assert(patcher.sendMessage.args[0][0] === "goom");
-      assert.deepEqual(patcher.sendMessage.args[0][1], m([ f(7.4) ]));
+      assert.deepEqual(patcher.sendMessage.args[0][1], $m([ $f(7.4) ]));
     });
   });
   describe("/set 10.", () => {
     it("In left inlet: The word set , followed by a number, replaces the stored value without triggering output", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(0, m([ s("set"), f(10) ]));
+      send.sendMessage(0, $m([ $s("set"), $f(10) ]));
       assert(spy.callCount === 0);
 
-      send.sendMessage(0, m([ s("bang") ]));
+      send.sendMessage(0, $m([ $s("bang") ]));
       assert(spy.callCount === 1);
       assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], [ f(10) ]);
+      assert.deepEqual(spy.args[0][1], [ $f(10) ]);
     });
     it("In right inlet: ignored", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(1, m([ s("set"), f(10) ]));
+      send.sendMessage(1, $m([ $s("set"), $f(10) ]));
       assert(spy.callCount === 0);
     });
   });

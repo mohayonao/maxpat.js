@@ -78,14 +78,14 @@ export default class TypedValue {
   }
 }
 
-export function i(value) {
+export function $i(value) {
   return new TypedValue("int", +value|0);
 }
 
-export function f(value) {
+export function $f(value) {
   return new TypedValue("float", +value || 0);
 }
 
-export function s(value) {
+export function $s(value) {
   return new TypedValue("string", "" + value);
 }

@@ -58,7 +58,7 @@ export default class MaxMessage {
   }
 }
 
-export function m(values) {
+export function $m(values) {
   return new MaxMessage(values);
 }
 
