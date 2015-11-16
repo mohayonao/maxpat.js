@@ -5,7 +5,6 @@ import MaxFloatObject from "../../../src/objects/max/MaxFloatObject";
 import { $i, $f, $s } from "../../../src/TypedValue";
 
 const opts = {
-  "id": "obj-28",
   "className": "float",
   "tagName": "float",
   "numOfInlets": 2,
@@ -16,7 +15,7 @@ const opts = {
   "attrs": {}
 };
 
-describe("objects/max/MaxFloatObject", () => {
+describe("[ float 7.4 ]", () => {
   let patcher, send, recv, test;
 
   beforeEach(() => {
@@ -39,12 +38,6 @@ describe("objects/max/MaxFloatObject", () => {
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
       assert.deepEqual(spy.args[0], [ 0, $f(7.4) ]);
-    });
-    it("In right inlet: ignored", () => {
-      let spy = recv["/anything"] = sinon.spy();
-
-      send.sendMessage(1, $s("bang"));
-      assert(spy.callCount === 0);
     });
   });
   describe("/int", () => {
@@ -113,12 +106,6 @@ describe("objects/max/MaxFloatObject", () => {
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
       assert.deepEqual(spy.args[0], [ 0, $f(10) ]);
-    });
-    it("In right inlet: ignored", () => {
-      let spy = recv["/anything"] = sinon.spy();
-
-      send.sendMessage(1, [ $s("set"), $f(10) ]);
-      assert(spy.callCount === 0);
     });
   });
 });

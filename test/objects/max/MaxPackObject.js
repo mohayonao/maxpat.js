@@ -16,7 +16,7 @@ const opts = {
   "attrs": {}
 };
 
-describe("objects/max/MaxPackObject", () => {
+describe("[ pack 0 0. sym ]", () => {
   let patcher, send, recv, test;
 
   beforeEach(() => {
@@ -33,22 +33,16 @@ describe("objects/max/MaxPackObject", () => {
     }
   });
   describe("/bang", () => {
-    it("In left inlet: Output currently stored list", () => {
+    it("Output currently stored list", () => {
       let spy = recv["/anything"] = sinon.spy();
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
       assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("sym") ] ]);
     });
-    it("In right inlet: ignored", () => {
-      let spy = recv["/anything"] = sinon.spy();
-
-      send.sendMessage(1, $s("bang"));
-      assert(spy.callCount === 0);
-    });
   });
   describe("/int", () => {
-    it("In left inlet", () => {
+    it("1st inlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
       send.sendMessage(0, $i(10));
@@ -59,19 +53,29 @@ describe("objects/max/MaxPackObject", () => {
       assert(spy.callCount === 2);
       assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(0), $s("sym") ] ]);
     });
-    it("In right inlet", () => {
+    it("2nd inlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(1, $i(10));
+      send.sendMessage(1, $i(20));
       assert(spy.callCount === 0);
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
-      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(10), $s("sym") ] ]);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(20), $s("sym") ] ]);
+    });
+    it("3rd inlet", () => {
+      let spy = recv["/anything"] = sinon.spy();
+
+      send.sendMessage(2, $i(30));
+      assert(spy.callCount === 0);
+
+      send.sendMessage(0, $s("bang"));
+      assert(spy.callCount === 1);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("30") ] ]);
     });
   });
   describe("/float", () => {
-    it("In left inlet", () => {
+    it("1st inlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
       send.sendMessage(0, $f(10));
@@ -82,42 +86,95 @@ describe("objects/max/MaxPackObject", () => {
       assert(spy.callCount === 2);
       assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(0), $s("sym") ] ]);
     });
-    it("In right inlet", () => {
+    it("2nd inlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(1, $f(10));
+      send.sendMessage(1, $f(20));
       assert(spy.callCount === 0);
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
-      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(10), $s("sym") ] ]);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(20), $s("sym") ] ]);
     });
-  });
-  describe("/list", () => {
-    it("In left inlet", () => {
+    it("3rd inlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(0, [ $i(10), $f(10) ]);
+      send.sendMessage(2, $f(30));
+      assert(spy.callCount === 0);
+
+      send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
-      assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(10), $s("sym") ] ]);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("30") ] ]);
+    });
+  });
+  describe("/symbol", () => {
+    it("1st inlet", () => {
+      let spy = recv["/anything"] = sinon.spy();
+
+      send.sendMessage(0, $s("foo"));
+      assert(spy.callCount === 1);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("sym") ] ]);
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 2);
-      assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(10), $s("sym") ] ]);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("sym") ] ]);
     });
-    it("In right inlet: ignored", () => {
+    it("2nd inlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(1, [ $i(10), $f(10) ]);
+      send.sendMessage(1, $s("bar"));
       assert(spy.callCount === 0);
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
-      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(10), $s("10") ] ]);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("sym") ] ]);
+    });
+    it("3rd inlet", () => {
+      let spy = recv["/anything"] = sinon.spy();
+
+      send.sendMessage(2, $s("baz"));
+      assert(spy.callCount === 0);
+
+      send.sendMessage(0, $s("bang"));
+      assert(spy.callCount === 1);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("baz") ] ]);
+    });
+  });
+  describe("/list", () => {
+    it("1st inlet", () => {
+      let spy = recv["/anything"] = sinon.spy();
+
+      send.sendMessage(0, [ $i(10), $f(20) ]);
+      assert(spy.callCount === 1);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(20), $s("sym") ] ]);
+
+      send.sendMessage(0, $s("bang"));
+      assert(spy.callCount === 2);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(20), $s("sym") ] ]);
+    });
+    it("2nd inlet", () => {
+      let spy = recv["/anything"] = sinon.spy();
+
+      send.sendMessage(1, [ $i(10), $f(20) ]);
+      assert(spy.callCount === 0);
+
+      send.sendMessage(0, $s("bang"));
+      assert(spy.callCount === 1);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(10), $s("20") ] ]);
+    });
+    it("3rd inlet", () => {
+      let spy = recv["/anything"] = sinon.spy();
+
+      send.sendMessage(2, [ $i(10), $f(20) ]);
+      assert(spy.callCount === 0);
+
+      send.sendMessage(0, $s("bang"));
+      assert(spy.callCount === 1);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("10") ] ]);
     });
   });
   describe("/set", () => {
-    it("In left inlet", () => {
+    it("1st inlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
       send.sendMessage(0, [ $s("set"), $i(10) ]);
@@ -127,19 +184,29 @@ describe("objects/max/MaxPackObject", () => {
       assert(spy.callCount === 1);
       assert.deepEqual(spy.args[0], [ 0, [ $i(10), $f(0), $s("sym") ] ]);
     });
-    it("In right inlet", () => {
+    it("2nd inlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(1, [ $s("set"), $i(10) ]);
+      send.sendMessage(1, [ $s("set"), $i(20) ]);
       assert(spy.callCount === 0);
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
-      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(10), $s("sym") ] ]);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(20), $s("sym") ] ]);
+    });
+    it("3rd inlet", () => {
+      let spy = recv["/anything"] = sinon.spy();
+
+      send.sendMessage(2, [ $s("set"), $i(30) ]);
+      assert(spy.callCount === 0);
+
+      send.sendMessage(0, $s("bang"));
+      assert(spy.callCount === 1);
+      assert.deepEqual(spy.args[0], [ 0, [ $i(0), $f(0), $s("30") ] ]);
     });
   });
   describe("/nth", () => {
-    it("In left inlet", () => {
+    it("1st inlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
       send.sendMessage(0, [ $s("nth"), $i(0) ]);
@@ -148,20 +215,20 @@ describe("objects/max/MaxPackObject", () => {
       send.sendMessage(0, [ $s("nth"), $i(1) ]);
       assert(spy.callCount === 1);
       assert.deepEqual(spy.args[0], [ 0, $i(0) ]);
-
-      send.sendMessage(0, [ $s("nth"), $i(2) ]);
-      assert(spy.callCount === 2);
-      assert.deepEqual(spy.args[1], [ 0, $f(0) ]);
-
-      send.sendMessage(0, [ $s("nth"), $i(3) ]);
-      assert(spy.callCount === 3);
-      assert.deepEqual(spy.args[2], [ 0, [ $s("sym") ] ]);
     });
-    it("In right inlet", () => {
+    it("2nd inlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(1, [ $s("nth"), $i(1) ]);
-      assert(spy.callCount === 0);
+      send.sendMessage(1, [ $s("nth"), $i(2) ]);
+      assert(spy.callCount === 1);
+      assert.deepEqual(spy.args[0], [ 0, $f(0) ]);
+    });
+    it("3rd inlet", () => {
+      let spy = recv["/anything"] = sinon.spy();
+
+      send.sendMessage(2, [ $s("nth"), $i(3) ]);
+      assert(spy.callCount === 1);
+      assert.deepEqual(spy.args[0], [ 0, [ $s("sym") ] ]);
     });
   });
   describe("/send", () => {

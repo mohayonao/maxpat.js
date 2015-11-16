@@ -6,17 +6,13 @@ export default class MaxIterObject extends MaxObject {
     this._storedValue = null;
   }
 
-  ["/bang"](inlet) {
-    if (inlet === 0) {
-      this._emit();
-    }
+  ["/bang"]() {
+    this._emit();
   }
 
   ["/anything"](inlet, values) {
-    if (inlet === 0) {
-      this._storedValue = toArray(values);
-      this._emit();
-    }
+    this._storedValue = toArray(values);
+    this._emit();
   }
 
   _emit() {

@@ -16,7 +16,7 @@ const opts = {
   "attrs": {}
 };
 
-describe("objects/max/MaxButtonObject", () => {
+describe("[ button ]", () => {
   let patcher, send, recv, test;
 
   beforeEach(() => {
@@ -32,8 +32,8 @@ describe("objects/max/MaxButtonObject", () => {
       test.connect(recv, i, i);
     }
   });
-  describe("/bang", () => {
-    it("In left inlet: When any message is received in the inlet, button flashes briefly and a bang is sent out the outlet", () => {
+  describe("/anything", () => {
+    it("When any message is received in the inlet, button flashes briefly and a bang is sent out the outlet", () => {
       let spy = recv["/anything"] = sinon.spy();
 
       send.sendMessage(0, $s("bang"));

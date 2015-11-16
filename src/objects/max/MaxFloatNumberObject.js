@@ -4,58 +4,44 @@ import toNumber from "../../utils/toNumber";
 
 export default class MaxFloatNumberObject extends MaxObject {
   initialize(opts) {
-    this._maximum = opts.attrs.maximum ? toNumber(opts.attrs.maximum[0]) : Infinity;
-    this._minimum = opts.attrs.minimum ? toNumber(opts.attrs.minimum [0]) : -Infinity;
+    this._maxValue = opts.attrs.maximum ? toNumber(opts.attrs.maximum[0]) : +Infinity;
+    this._minValue = opts.attrs.minimum ? toNumber(opts.attrs.minimum[0]) : -Infinity;
     this._update(opts.args[0]);
   }
 
-  ["/bang"](inlet) {
-    if (inlet === 0) {
-      this._emit();
-    }
+  ["/bang"]() {
+    this._emit();
   }
 
   ["/int"](inlet, value) {
     this._update(value);
-    if (inlet === 0) {
-      this._emit();
-    }
+    this._emit();
   }
 
   ["/float"](inlet, value) {
     this._update(value);
-    if (inlet === 0) {
-      this._emit();
-    }
+    this._emit();
   }
 
   ["/list"](inlet, values) {
     this._update(values[0]);
-    if (inlet === 0) {
-      this._emit();
-    }
-  }
-
-  ["/set"](inlet, values) {
-    if (inlet === 0) {
-      this._update(values[1]);
-    }
+    this._emit();
   }
 
   ["/max"](inlet, values) {
-    if (inlet === 0) {
-      this._maximum = toNumber(values[1]);
-    }
+    this._maxValue = toNumber(values[1]);
   }
 
   ["/min"](inlet, values) {
-    if (inlet === 0) {
-      this._minimum = toNumber(values[1]);
-    }
+    this._minValue = toNumber(values[1]);
+  }
+
+  ["/set"](inlet, values) {
+    this._update(values[1]);
   }
 
   _update(value) {
-    this._storedValue = $f(Math.max(this._minimum, Math.min(toNumber(value), this._maximum)));
+    this._storedValue = $f(Math.max(this._minValue, Math.min(toNumber(value), this._maxValue)));
   }
 
   _emit() {

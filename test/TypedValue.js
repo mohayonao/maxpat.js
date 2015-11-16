@@ -117,7 +117,7 @@ describe("TypedValue", () => {
       assert.deepEqual($f("nan"), new TypedValue("float", 0));
     });
   });
-  describe("$s(value: number): TypedValue", () => {
+  describe("$s(value: string): TypedValue", () => {
     it("works", () => {
       assert.deepEqual($s(1), new TypedValue("string", "1"));
       assert.deepEqual($s(1.5), new TypedValue("string", "1.5"));

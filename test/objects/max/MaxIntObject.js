@@ -16,7 +16,7 @@ const opts = {
   "attrs": {}
 };
 
-describe("objects/max/MaxIntObject", () => {
+describe("[ int 74 ]", () => {
   let patcher, send, recv, test;
 
   beforeEach(() => {
@@ -39,12 +39,6 @@ describe("objects/max/MaxIntObject", () => {
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
       assert.deepEqual(spy.args[0], [ 0, $i(74) ]);
-    });
-    it("In right inlet: ignored", () => {
-      let spy = recv["/anything"] = sinon.spy();
-
-      send.sendMessage(1, $s("bang"));
-      assert(spy.callCount === 0);
     });
   });
   describe("/int", () => {
@@ -107,18 +101,12 @@ describe("objects/max/MaxIntObject", () => {
     it("In left inlet: The word set , followed by a number, replaces the stored value without triggering output", () => {
       let spy = recv["/anything"] = sinon.spy();
 
-      send.sendMessage(0, [ $s("set"), $f(10) ]);
+      send.sendMessage(0, [ $s("set"), $i(10) ]);
       assert(spy.callCount === 0);
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
       assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
-    });
-    it("In right inlet: ignored", () => {
-      let spy = recv["/anything"] = sinon.spy();
-
-      send.sendMessage(1, [ $s("set"), $f(10) ]);
-      assert(spy.callCount === 0);
     });
   });
 });

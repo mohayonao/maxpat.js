@@ -18,7 +18,7 @@ const opts = {
   }
 };
 
-describe("objects/max/MaxPrintObject", () => {
+describe("[ print argument @popup 1 ]", () => {
   let patcher, send, recv, test;
 
   beforeEach(() => {
@@ -35,7 +35,7 @@ describe("objects/max/MaxPrintObject", () => {
     }
   });
   describe("/anything", () => {
-    it("In left inlet: Messages are not interpreted by the print object. They are simply printed verbatim in the Max Console", () => {
+    it("Messages are not interpreted by the print object. They are simply printed verbatim in the Max Console", () => {
       let spy = recv["/anything"] = sinon.spy();
 
       send.sendMessage(0, [ $s("hello"), $s("world") ]);

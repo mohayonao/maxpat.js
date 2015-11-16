@@ -35,15 +35,15 @@ export default class MaxFloatObject extends MaxObject {
     }
   }
 
-  ["/set"](inlet, values) {
-    if (inlet === 0) {
-      this._update(values[1]);
-    }
-  }
-
   ["/send"](inlet, values) {
     if (inlet === 0) {
       this.patcher.sendMessage(toString(values[1]), this._storedValue);
+    }
+  }
+
+  ["/set"](inlet, values) {
+    if (inlet === 0) {
+      this._update(values[1]);
     }
   }
 

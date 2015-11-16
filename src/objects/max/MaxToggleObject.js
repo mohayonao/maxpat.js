@@ -7,34 +7,35 @@ export default class MaxToggleObject extends MaxObject {
     this._storedValue = $i(0);
   }
 
-  ["/bang"](inlet) {
-    if (inlet === 0) {
-      this._update(1 - this._storedValue.value);
-      this._emit();
-    }
+  ["/bang"]() {
+    this._update(this._storedValue.value ? 0 : 1);
+    this._emit();
   }
 
   ["/int"](inlet, value) {
-    if (inlet === 0) {
-      this._update(toNumber(value));
-      this._emit();
-    }
+    this._update(toNumber(value));
+    this._emit();
   }
 
   ["/float"](inlet, value) {
-    if (inlet === 0) {
-      this._update(toNumber(value));
-      this._emit();
-    }
+    this._update(toNumber(value));
+    this._emit();
+  }
+
+  ["/list"](inlet, values) {
+    this._update(toNumber(values[1]));
+    this._emit();
+  }
+
+  ["/set"](inlet, values) {
+    this._update(toNumber(values[1]));
   }
 
   _update(value) {
-    this._storedValue = $i(value ? 1 : 0);
+    this._storedValue = $i(value);
   }
 
   _emit() {
-    if (this._storedValue.value !== 0) {
-      this.poseMessage(0, this._storedValue);
-    }
+    this.poseMessage(0, this._storedValue);
   }
 }

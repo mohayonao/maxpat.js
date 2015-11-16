@@ -16,7 +16,7 @@ const opts = {
   "attrs": {}
 };
 
-describe("objects/max/MaxIterObject", () => {
+describe("[ iter ]", () => {
   let patcher, send, recv, test;
 
   beforeEach(() => {
@@ -39,12 +39,6 @@ describe("objects/max/MaxIterObject", () => {
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 0);
     });
-    it("In right inlet: ignored", () => {
-      let spy = recv["/anything"] = sinon.spy();
-
-      send.sendMessage(1, $s("bang"));
-      assert(spy.callCount === 0);
-    });
   });
   describe("/int", () => {
     it("In left inlet: The number is sent out the outlet", () => {
@@ -58,12 +52,6 @@ describe("objects/max/MaxIterObject", () => {
       assert(spy.callCount === 2);
       assert.deepEqual(spy.args[1], [ 0, $i(10) ]);
     });
-    it("In right inlet: ignored", () => {
-      let spy = recv["/anything"] = sinon.spy();
-
-      send.sendMessage(1, $i(10));
-      assert(spy.callCount === 0);
-    });
   });
   describe("/float", () => {
     it("In left inlet: The number is sent out the outlet", () => {
@@ -76,12 +64,6 @@ describe("objects/max/MaxIterObject", () => {
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 2);
       assert.deepEqual(spy.args[1], [ 0, $f(10) ]);
-    });
-    it("In right inlet: ignored", () => {
-      let spy = recv["/anything"] = sinon.spy();
-
-      send.sendMessage(1, $f(10));
-      assert(spy.callCount === 0);
     });
   });
   describe("/list", () => {
@@ -98,12 +80,6 @@ describe("objects/max/MaxIterObject", () => {
       assert.deepEqual(spy.args[2], [ 0, $i(10) ]);
       assert.deepEqual(spy.args[3], [ 0, $f(10) ]);
     });
-    it("In right inlet: ignored", () => {
-      let spy = recv["/anything"] = sinon.spy();
-
-      send.sendMessage(1, [ $i(10), $f(10) ]);
-      assert(spy.callCount === 0);
-    });
   });
   describe("/anything", () => {
     it("In left inlet: See the list entry", () => {
@@ -118,12 +94,6 @@ describe("objects/max/MaxIterObject", () => {
       assert(spy.callCount === 4);
       assert.deepEqual(spy.args[2], [ 0, [ $s("set") ] ]);
       assert.deepEqual(spy.args[3], [ 0, $i(10) ]);
-    });
-    it("In right inlet: ignored", () => {
-      let spy = recv["/anything"] = sinon.spy();
-
-      send.sendMessage(1, [ $s("set"), $i(10) ]);
-      assert(spy.callCount === 0);
     });
   });
 });
