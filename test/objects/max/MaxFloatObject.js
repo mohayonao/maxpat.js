@@ -100,7 +100,6 @@ describe("objects/max/MaxFloatObject", () => {
       send.sendMessage(0, [ $s("send"), $s("goom") ]);
       assert(spy.callCount === 0);
       assert(patcher.sendMessage.callCount === 1);
-
       assert.deepEqual(patcher.sendMessage.args[0], [ "goom", $f(7.4) ]);
     });
   });

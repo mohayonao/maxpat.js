@@ -1,7 +1,7 @@
 export default class TypedValue {
   constructor(type, value) {
     this.type = type;
-    this.value = value;
+    this.value = to(type, value);
   }
 
   is(type) {
@@ -76,6 +76,19 @@ export default class TypedValue {
 
     return new TypedValue("int", 0);
   }
+}
+
+function to(type, value) {
+  if (type === "int") {
+    return +value|0;
+  }
+  if (type === "float") {
+    return +value || 0;
+  }
+  if (type === "string") {
+    return value.toString();
+  }
+  return 0;
 }
 
 export function $i(value) {

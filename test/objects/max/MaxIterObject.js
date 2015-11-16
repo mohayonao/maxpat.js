@@ -53,7 +53,7 @@ describe("objects/max/MaxIterObject", () => {
       send.sendMessage(0, $i(10));
       assert(spy.callCount === 1);
       assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
-      //
+
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 2);
       assert.deepEqual(spy.args[1], [ 0, $i(10) ]);
