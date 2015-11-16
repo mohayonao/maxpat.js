@@ -38,8 +38,7 @@ describe("objects/max/MaxIntObject", () => {
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
-      assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], $i(74));
+      assert.deepEqual(spy.args[0], [ 0, $i(74) ]);
     });
     it("In right inlet: ignored", () => {
       let spy = recv["/anything"] = sinon.spy();
@@ -54,13 +53,11 @@ describe("objects/max/MaxIntObject", () => {
 
       send.sendMessage(0, $i(10));
       assert(spy.callCount === 1);
-      assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], $i(10));
+      assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 2);
-      assert(spy.args[1][0] === 0);
-      assert.deepEqual(spy.args[1][1], $i(10));
+      assert.deepEqual(spy.args[1], [ 0, $i(10) ]);
     });
     it("In right inlet: The number replaces the stored value without triggering output", () => {
       let spy = recv["/anything"] = sinon.spy();
@@ -70,8 +67,7 @@ describe("objects/max/MaxIntObject", () => {
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
-      assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], $i(10));
+      assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
     });
   });
   describe("/float", () => {
@@ -80,13 +76,11 @@ describe("objects/max/MaxIntObject", () => {
 
       send.sendMessage(0, $f(10));
       assert(spy.callCount === 1);
-      assert(spy.args[0][0] === 0);
       assert.deepEqual(spy.args[0][1], $i(10));
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 2);
-      assert(spy.args[1][0] === 0);
-      assert.deepEqual(spy.args[1][1], $i(10));
+      assert.deepEqual(spy.args[1], [ 0, $i(10) ]);
     });
     it("In right inlet: Converted to int", () => {
       let spy = recv["/anything"] = sinon.spy();
@@ -96,8 +90,7 @@ describe("objects/max/MaxIntObject", () => {
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
-      assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], $i(10));
+      assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
     });
   });
   describe("/send", () => {
@@ -108,8 +101,7 @@ describe("objects/max/MaxIntObject", () => {
       assert(spy.callCount === 0);
       assert(patcher.sendMessage.callCount === 1);
 
-      assert(patcher.sendMessage.args[0][0] === "goom");
-      assert.deepEqual(patcher.sendMessage.args[0][1], $i(74));
+      assert.deepEqual(patcher.sendMessage.args[0], [ "goom", $i(74) ]);
     });
   });
   describe("/set 10", () => {
@@ -121,8 +113,7 @@ describe("objects/max/MaxIntObject", () => {
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 1);
-      assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], $i(10));
+      assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
     });
     it("In right inlet: ignored", () => {
       let spy = recv["/anything"] = sinon.spy();

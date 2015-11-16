@@ -1,6 +1,5 @@
 import assert from "power-assert";
 import toArray from "../../src/utils/toArray";
-import TypedValue from "../../src/TypedValue";
 
 describe("utils", () => {
   describe("toArray(value: any): any[]", () => {

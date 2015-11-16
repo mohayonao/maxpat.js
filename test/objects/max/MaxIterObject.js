@@ -52,13 +52,11 @@ describe("objects/max/MaxIterObject", () => {
 
       send.sendMessage(0, $i(10));
       assert(spy.callCount === 1);
-      assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], $i(10));
+      assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
       //
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 2);
-      assert(spy.args[1][0] === 0);
-      assert.deepEqual(spy.args[1][1], $i(10));
+      assert.deepEqual(spy.args[1], [ 0, $i(10) ]);
     });
     it("In right inlet: ignored", () => {
       let spy = recv["/anything"] = sinon.spy();
@@ -73,13 +71,11 @@ describe("objects/max/MaxIterObject", () => {
 
       send.sendMessage(0, $f(10));
       assert(spy.callCount === 1);
-      assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], $f(10));
+      assert.deepEqual(spy.args[0], [ 0, $f(10) ]);
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 2);
-      assert(spy.args[1][0] === 0);
-      assert.deepEqual(spy.args[1][1], $f(10));
+      assert.deepEqual(spy.args[1], [ 0, $f(10) ]);
     });
     it("In right inlet: ignored", () => {
       let spy = recv["/anything"] = sinon.spy();
@@ -94,17 +90,13 @@ describe("objects/max/MaxIterObject", () => {
 
       send.sendMessage(0, [ $i(10), $f(10) ]);
       assert(spy.callCount === 2);
-      assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], $i(10));
-      assert(spy.args[1][0] === 0);
-      assert.deepEqual(spy.args[1][1], $f(10));
+      assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
+      assert.deepEqual(spy.args[1], [ 0, $f(10) ]);
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 4);
-      assert(spy.args[2][0] === 0);
-      assert.deepEqual(spy.args[2][1], $i(10));
-      assert(spy.args[3][0] === 0);
-      assert.deepEqual(spy.args[3][1], $f(10));
+      assert.deepEqual(spy.args[2], [ 0, $i(10) ]);
+      assert.deepEqual(spy.args[3], [ 0, $f(10) ]);
     });
     it("In right inlet: ignored", () => {
       let spy = recv["/anything"] = sinon.spy();
@@ -119,17 +111,13 @@ describe("objects/max/MaxIterObject", () => {
 
       send.sendMessage(0, [ $s("set"), $i(10) ]);
       assert(spy.callCount === 2);
-      assert(spy.args[0][0] === 0);
-      assert.deepEqual(spy.args[0][1], [ $s("set") ]);
-      assert(spy.args[1][0] === 0);
-      assert.deepEqual(spy.args[1][1], $i(10));
+      assert.deepEqual(spy.args[0], [ 0, [ $s("set") ] ]);
+      assert.deepEqual(spy.args[1], [ 0, $i(10) ]);
 
       send.sendMessage(0, $s("bang"));
       assert(spy.callCount === 4);
-      assert(spy.args[2][0] === 0);
-      assert.deepEqual(spy.args[0][1], [ $s("set") ]);
-      assert(spy.args[3][0] === 0);
-      assert.deepEqual(spy.args[1][1], $i(10));
+      assert.deepEqual(spy.args[2], [ 0, [ $s("set") ] ]);
+      assert.deepEqual(spy.args[3], [ 0, $i(10) ]);
     });
     it("In right inlet: ignored", () => {
       let spy = recv["/anything"] = sinon.spy();
