@@ -58,10 +58,12 @@ export default class MaxObject extends EventEmitter {
       let type = message.getType();
       let address = `/${type}`;
 
+      if (typeof this[address] !== "function") {
+        address = "/anything";
+      }
+
       if (typeof this[address] === "function") {
-        this[address](inlet, message.getValues());
-      } else if (typeof this["/anything"] === "function") {
-        this["/anything"](inlet, message.items);
+        this[address](inlet, message.getValue());
       }
     }
   }

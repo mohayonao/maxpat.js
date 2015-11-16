@@ -15,15 +15,15 @@ export default class MaxIntObject extends MaxObject {
     }
   }
 
-  ["/int"](inlet, values) {
-    this._update(values[0]);
+  ["/int"](inlet, value) {
+    this._update(value);
     if (inlet === 0) {
       this._emit();
     }
   }
 
-  ["/float"](inlet, values) {
-    this._update(values[0]);
+  ["/float"](inlet, value) {
+    this._update(value);
     if (inlet === 0) {
       this._emit();
     }
@@ -38,13 +38,13 @@ export default class MaxIntObject extends MaxObject {
 
   ["/set"](inlet, values) {
     if (inlet === 0) {
-      this._update(values[0]);
+      this._update(values[1]);
     }
   }
 
   ["/send"](inlet, values) {
     if (inlet === 0) {
-      this.patcher.sendMessage(toString(values[0]), $m([ this._storedValue ]));
+      this.patcher.sendMessage(toString(values[1]), $m(this._storedValue));
     }
   }
 
@@ -53,6 +53,6 @@ export default class MaxIntObject extends MaxObject {
   }
 
   _emit() {
-    this.sendMessage(0, $m([ this._storedValue ]));
+    this.sendMessage(0, $m(this._storedValue));
   }
 }

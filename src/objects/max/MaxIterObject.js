@@ -12,16 +12,13 @@ export default class MaxIterObject extends MaxObject {
     }
   }
 
-  ["/list"](inlet, values) {
-    if (inlet === 0) {
-      this._storedValue = values;
-      this._emit();
-    }
-  }
-
   ["/anything"](inlet, values) {
     if (inlet === 0) {
-      this._storedValue = values;
+      if (Array.isArray(values)) {
+        this._storedValue = values;
+      } else {
+        this._storedValue = [ values ];
+      }
       this._emit();
     }
   }
@@ -31,7 +28,7 @@ export default class MaxIterObject extends MaxObject {
       let storedValue = this._storedValue;
 
       for (let i = 0, imax = storedValue.length; i < imax; i++) {
-        this.sendMessage(0, $m([ storedValue[i] ]));
+        this.sendMessage(0, $m(storedValue[i]));
       }
     }
   }
