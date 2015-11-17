@@ -1,6 +1,7 @@
 import MaxObject from "../MaxObject";
 import { $f } from "../../TypedValue";
 import toNumber from "../../utils/toNumber";
+import constrain from "../../utils/constrain";
 
 export default class MaxFloatNumberObject extends MaxObject {
   initialize(opts) {
@@ -41,7 +42,7 @@ export default class MaxFloatNumberObject extends MaxObject {
   }
 
   _update(value) {
-    this._storedValue = $f(Math.max(this._minValue, Math.min(toNumber(value), this._maxValue)));
+    this._storedValue = $f(constrain(toNumber(value), this._minValue, this._maxValue));
   }
 
   _emit() {
