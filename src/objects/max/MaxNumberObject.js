@@ -31,10 +31,12 @@ export default class MaxNumberObject extends MaxObject {
 
   ["/max"](inlet, values) {
     this._maxValue = toNumber(values[1]);
+    this._update(this._storedValue);
   }
 
   ["/min"](inlet, values) {
     this._minValue = toNumber(values[1]);
+    this._update(this._storedValue);
   }
 
   ["/set"](inlet, values) {
