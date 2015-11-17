@@ -23,7 +23,7 @@ export default class MaxToggleObject extends MaxObject {
   }
 
   ["/list"](inlet, values) {
-    this._update(toNumber(values[1]));
+    this._update(toNumber(values[0]));
     this._emit();
   }
 
@@ -36,6 +36,6 @@ export default class MaxToggleObject extends MaxObject {
   }
 
   _emit() {
-    this.poseMessage(0, this._storedValue);
+    this.sendMessage(0, this._storedValue);
   }
 }

@@ -24,7 +24,7 @@ export default class MaxObject extends EventEmitter {
   initialize() {}
 
   connect(destination, outlet, inlet) {
-    if (0 <= outlet && outlet < this.numOfOutlets) {
+    if (0 <= outlet && outlet < this.numOfOutlets && 0 <= inlet && inlet < destination.numOfInlets) {
       let items = { destination, outlet, inlet };
       let index = _findIndex(this._connections, conn => _isEqual(conn, items));
 
@@ -36,7 +36,7 @@ export default class MaxObject extends EventEmitter {
   }
 
   disconnect(destination, outlet, inlet) {
-    if (0 <= outlet && outlet < this.numOfOutlets) {
+    if (0 <= outlet && outlet < this.numOfOutlets && 0 <= inlet && inlet < destination.numOfInlets) {
       let items = { destination, outlet, inlet };
       let index = _findIndex(this._connections, conn => _isEqual(conn, items));
 

@@ -1,11 +1,15 @@
 import MaxObject from "../MaxObject";
-import TypedValue from "../../TypedValue";
+import TypedValue, { $i } from "../../TypedValue";
 import toNumber from "../../utils/toNumber";
 import toString from "../../utils/toString";
 
 export default class MaxPackObject extends MaxObject {
   initialize(opts) {
-    this._storedValue = opts.args.slice();
+    if (opts.args.length === 0) {
+      this._storedValue = [ $i(0), $i(0) ];
+    } else {
+      this._storedValue = opts.args.slice();
+    }
   }
 
   ["/bang"](inlet) {
