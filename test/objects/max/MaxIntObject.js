@@ -1,5 +1,4 @@
 import assert from "power-assert";
-import sinon from "sinon";
 import createTestObjects from "./utils/createTestObjects";
 import MaxIntObject from "../../../src/objects/max/MaxIntObject";
 import { $i, $f, $s } from "../../../src/TypedValue";
@@ -19,12 +18,11 @@ describe("MaxIntObject", () => {
     };
     describe("/bang", () => {
       it("In left inlet: Sends the stored value out the outlet", () => {
-        let { sender, receiver } = createTestObjects(MaxIntObject, opts);
-        let spy = receiver["/:else"] = sinon.spy();
+        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
         sender.sendMessage(0, $s("bang"));
-        assert(spy.callCount === 1);
-        assert.deepEqual(spy.args[0], [ 0, $i(0) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
       });
     });
   });
@@ -42,86 +40,79 @@ describe("MaxIntObject", () => {
     };
     describe("/bang", () => {
       it("In left inlet: Sends the stored value out the outlet", () => {
-        let { sender, receiver } = createTestObjects(MaxIntObject, opts);
-        let spy = receiver["/:else"] = sinon.spy();
+        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
         sender.sendMessage(0, $s("bang"));
-        assert(spy.callCount === 1);
-        assert.deepEqual(spy.args[0], [ 0, $i(74) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(74) ]);
       });
     });
     describe("/int", () => {
       it("In left inlet: The number replaces the currently stored value and is sent out the outlet", () => {
-        let { sender, receiver } = createTestObjects(MaxIntObject, opts);
-        let spy = receiver["/:else"] = sinon.spy();
+        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
         sender.sendMessage(0, $i(10));
-        assert(spy.callCount === 1);
-        assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
 
         sender.sendMessage(0, $s("bang"));
-        assert(spy.callCount === 2);
-        assert.deepEqual(spy.args[1], [ 0, $i(10) ]);
+        assert(receiverSpy.callCount === 2);
+        assert.deepEqual(receiverSpy.args[1], [ 0, $i(10) ]);
       });
       it("In right inlet: The number replaces the stored value without triggering output", () => {
-        let { sender, receiver } = createTestObjects(MaxIntObject, opts);
-        let spy = receiver["/:else"] = sinon.spy();
+        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
         sender.sendMessage(1, $i(10));
-        assert(spy.callCount === 0);
+        assert(receiverSpy.callCount === 0);
 
         sender.sendMessage(0, $s("bang"));
-        assert(spy.callCount === 1);
-        assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
       });
     });
     describe("/float", () => {
       it("In left inlet: Converted to int", () => {
-        let { sender, receiver } = createTestObjects(MaxIntObject, opts);
-        let spy = receiver["/:else"] = sinon.spy();
+        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
         sender.sendMessage(0, $f(10));
-        assert(spy.callCount === 1);
-        assert.deepEqual(spy.args[0][1], $i(10));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0][1], $i(10));
 
         sender.sendMessage(0, $s("bang"));
-        assert(spy.callCount === 2);
-        assert.deepEqual(spy.args[1], [ 0, $i(10) ]);
+        assert(receiverSpy.callCount === 2);
+        assert.deepEqual(receiverSpy.args[1], [ 0, $i(10) ]);
       });
       it("In right inlet: Converted to int", () => {
-        let { sender, receiver } = createTestObjects(MaxIntObject, opts);
-        let spy = receiver["/:else"] = sinon.spy();
+        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
         sender.sendMessage(1, $f(10));
-        assert(spy.callCount === 0);
+        assert(receiverSpy.callCount === 0);
 
         sender.sendMessage(0, $s("bang"));
-        assert(spy.callCount === 1);
-        assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
       });
     });
     describe("/send", () => {
       it("In left inlet: The word send, followed by the name of a receive object, sends the value stored in int to all receive objects with that name, without sending it out the outlet of the int", () => {
-        let { patcher, sender, receiver } = createTestObjects(MaxIntObject, opts);
-        let spy = receiver["/:else"] = sinon.spy();
+        let { patcher, sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
         sender.sendMessage(0, [ $s("send"), $s("goom") ]);
-        assert(spy.callCount === 0);
+        assert(receiverSpy.callCount === 0);
         assert(patcher.sendMessage.callCount === 1);
         assert.deepEqual(patcher.sendMessage.args[0], [ "goom", $i(74) ]);
       });
     });
     describe("/set 10", () => {
       it("In left inlet: The word set , followed by a number, replaces the stored value without triggering output", () => {
-        let { sender, receiver } = createTestObjects(MaxIntObject, opts);
-        let spy = receiver["/:else"] = sinon.spy();
+        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
         sender.sendMessage(0, [ $s("set"), $i(10) ]);
-        assert(spy.callCount === 0);
+        assert(receiverSpy.callCount === 0);
 
         sender.sendMessage(0, $s("bang"));
-        assert(spy.callCount === 1);
-        assert.deepEqual(spy.args[0], [ 0, $i(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
       });
     });
   });

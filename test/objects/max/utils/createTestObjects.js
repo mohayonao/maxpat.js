@@ -6,6 +6,7 @@ export default function createTestObjects(Klass, opts) {
   let target = new Klass(patcher, opts);
   let sender = new MaxObject(patcher, { numOfInlets: 0, numOfOutlets: target.numOfInlets, patchingRect: [ 0, 0, 0, 0 ] });
   let receiver = new MaxObject(patcher, { numOfInlets: target.numOfOutlets, numOfOutlets: 0, patchingRect: [ 0, 0, 0, 0 ] });
+  let receiverSpy = receiver["/:else"] = sinon.spy();
 
   for (let i = 0; i < target.numOfInlets; i++) {
     sender.connect(target, i, i);
@@ -14,5 +15,5 @@ export default function createTestObjects(Klass, opts) {
     target.connect(receiver, i, i);
   }
 
-  return { patcher, target, sender, receiver };
+  return { patcher, target, sender, receiver, receiverSpy };
 }
