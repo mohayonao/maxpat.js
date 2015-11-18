@@ -6,13 +6,9 @@ import { $i, $f, $s } from "../../../src/TypedValue";
 describe("MaxIterObject", () => {
   describe("[ iter ]", () => {
     const opts = {
-      "id": "obj-17",
-      "className": "iter",
-      "tagName": "iter",
       "numOfInlets": 1,
       "numOfOutlets": 1,
       "outletTypes": [ "" ],
-      "patchingRect": [ 92, 213, 27, 21 ],
       "args": [],
       "attrs": {}
     };
@@ -31,10 +27,11 @@ describe("MaxIterObject", () => {
         sender.sendMessage(0, $i(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $i(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
       });
     });
     describe("/float", () => {
@@ -44,10 +41,11 @@ describe("MaxIterObject", () => {
         sender.sendMessage(0, $f(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $f(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
       });
     });
     describe("/list", () => {
@@ -58,11 +56,12 @@ describe("MaxIterObject", () => {
         assert(receiverSpy.callCount === 2);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
         assert.deepEqual(receiverSpy.args[1], [ 0, $f(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 4);
-        assert.deepEqual(receiverSpy.args[2], [ 0, $i(10) ]);
-        assert.deepEqual(receiverSpy.args[3], [ 0, $f(10) ]);
+        assert(receiverSpy.callCount === 2);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
+        assert.deepEqual(receiverSpy.args[1], [ 0, $f(10) ]);
       });
     });
     describe("/:else", () => {
@@ -73,11 +72,12 @@ describe("MaxIterObject", () => {
         assert(receiverSpy.callCount === 2);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $s("set") ] ]);
         assert.deepEqual(receiverSpy.args[1], [ 0, $i(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 4);
-        assert.deepEqual(receiverSpy.args[2], [ 0, [ $s("set") ] ]);
-        assert.deepEqual(receiverSpy.args[3], [ 0, $i(10) ]);
+        assert(receiverSpy.callCount === 2);
+        assert.deepEqual(receiverSpy.args[0], [ 0, [ $s("set") ] ]);
+        assert.deepEqual(receiverSpy.args[1], [ 0, $i(10) ]);
       });
     });
   });

@@ -7,7 +7,7 @@ import toString from "../../utils/toString";
 export default class MaxChangeObject extends MaxObject {
   initialize(opts) {
     this._storedValue = toNumber(opts.args[0]);
-    this._mode = toString(defaults(opts.args[1], ""));
+    this._mode = toMode(toString(defaults(opts.args[1], "")));
   }
 
   ["/int"](inlet, value) {
@@ -27,7 +27,7 @@ export default class MaxChangeObject extends MaxObject {
   }
 
   ["/mode"](inlet, values) {
-    this._mode = toString(values[1]);
+    this._mode = toMode(toString(values[1]));
   }
 
   _update(value, emit) {
@@ -38,28 +38,35 @@ export default class MaxChangeObject extends MaxObject {
 
     if (emit && rawValue !== storedValue) {
       if (rawValue === 0) {
-        this.postMessage(2, $i(1));
+        this.sendMessage(2, $i(1));
       }
 
       if (storedValue === 0) {
-        this.postMessage(1, $i(1));
+        this.sendMessage(1, $i(1));
       }
 
       switch (this._mode) {
       case "+":
         if (storedValue < rawValue) {
-          this.postMessage(0, $i(1));
+          this.sendMessage(0, $i(1));
         }
         break;
       case "-":
         if (rawValue < storedValue) {
-          this.postMessage(0, $i(1));
+          this.sendMessage(0, $i(-1));
         }
         break;
       default:
-        this.postMessage(0, value);
+        this.sendMessage(0, value);
         break;
       }
     }
   }
+}
+
+function toMode(value) {
+  if (value === "-" || value === "+") {
+    return value;
+  }
+  return "";
 }

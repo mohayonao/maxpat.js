@@ -3,15 +3,12 @@ import createTestObjects from "./utils/createTestObjects";
 import MaxFloatObject from "../../../src/objects/max/MaxFloatObject";
 import { $i, $f, $s } from "../../../src/TypedValue";
 
-describe("MaxFloatClass", () => {
+describe("MaxFloatObject", () => {
   describe("[ float ]", () => {
     const opts = {
-      "className": "float",
-      "tagName": "float",
       "numOfInlets": 2,
       "numOfOutlets": 1,
       "outletTypes": [ "float" ],
-      "patchingRect": [ 12, 380, 58, 23 ],
       "args": [],
       "attrs": {}
     };
@@ -27,12 +24,9 @@ describe("MaxFloatClass", () => {
   });
   describe("[ float 7.4 ]", () => {
     const opts = {
-      "className": "float",
-      "tagName": "float",
       "numOfInlets": 2,
       "numOfOutlets": 1,
       "outletTypes": [ "float" ],
-      "patchingRect": [ 12, 380, 58, 23 ],
       "args": [ $f(7.4) ],
       "attrs": {}
     };
@@ -52,16 +46,18 @@ describe("MaxFloatClass", () => {
         sender.sendMessage(0, $i(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $f(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
       });
       it("In right inlet: Converted to float", () => {
         let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
 
         sender.sendMessage(1, $i(10));
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -75,16 +71,18 @@ describe("MaxFloatClass", () => {
         sender.sendMessage(0, $f(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $f(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
       });
       it("In right inlet: The number replaces the stored value without triggering output", () => {
         let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
 
         sender.sendMessage(1, $f(10));
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -102,11 +100,12 @@ describe("MaxFloatClass", () => {
       });
     });
     describe("/set 10.", () => {
-      it("In left inlet: The word set , followed by a number, replaces the stored value without triggering output", () => {
+      it("In left inlet: The word set, followed by a number, replaces the stored value without triggering output", () => {
         let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
 
         sender.sendMessage(0, [ $s("set"), $f(10) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);

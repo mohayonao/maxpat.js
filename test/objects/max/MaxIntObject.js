@@ -6,13 +6,9 @@ import { $i, $f, $s } from "../../../src/TypedValue";
 describe("MaxIntObject", () => {
   describe("[ int ]", () => {
     const opts = {
-      "id": "obj-22",
-      "className": "int",
-      "tagName": "int",
       "numOfInlets": 2,
       "numOfOutlets": 1,
       "outletTypes": [ "int" ],
-      "patchingRect": [ 195, 296, 90, 23 ],
       "args": [],
       "attrs": {}
     };
@@ -28,13 +24,9 @@ describe("MaxIntObject", () => {
   });
   describe("[ int 74 ]", () => {
     const opts = {
-      "id": "obj-22",
-      "className": "int",
-      "tagName": "int",
       "numOfInlets": 2,
       "numOfOutlets": 1,
       "outletTypes": [ "int" ],
-      "patchingRect": [ 195, 296, 90, 23 ],
       "args": [ $i(74) ],
       "attrs": {}
     };
@@ -54,16 +46,18 @@ describe("MaxIntObject", () => {
         sender.sendMessage(0, $i(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $i(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
       });
       it("In right inlet: The number replaces the stored value without triggering output", () => {
         let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
         sender.sendMessage(1, $i(10));
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -77,16 +71,18 @@ describe("MaxIntObject", () => {
         sender.sendMessage(0, $f(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0][1], $i(10));
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $i(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
       });
       it("In right inlet: Converted to int", () => {
         let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
         sender.sendMessage(1, $f(10));
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -109,6 +105,7 @@ describe("MaxIntObject", () => {
 
         sender.sendMessage(0, [ $s("set"), $i(10) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);

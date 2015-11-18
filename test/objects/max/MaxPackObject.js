@@ -6,13 +6,9 @@ import { $i, $f, $s } from "../../../src/TypedValue";
 describe("MaxPackObject", () => {
   describe("[ pack ]", () => {
     const opts = {
-      "id": "obj-5",
-      "className": "pack",
-      "tagName": "pack",
       "numOfInlets": 2,
       "numOfOutlets": 1,
       "outletTypes": [ "" ],
-      "patchingRect": [ 45, 329, 175, 2 ],
       "args": [],
       "attrs": {}
     };
@@ -28,13 +24,9 @@ describe("MaxPackObject", () => {
   });
   describe("[ pack 0 0. sym ]", () => {
     const opts = {
-      "id": "obj-5",
-      "className": "pack",
-      "tagName": "pack",
       "numOfInlets": 3,
       "numOfOutlets": 1,
       "outletTypes": [ "" ],
-      "patchingRect": [ 45, 329, 175, 2 ],
       "args": [ $i(0), $f(0), $s("sym") ],
       "attrs": {}
     };
@@ -54,9 +46,10 @@ describe("MaxPackObject", () => {
         sender.sendMessage(0, $i(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $i(10), $f(0), $s("sym") ] ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
+        assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $i(10), $f(0), $s("sym") ] ]);
       });
       it("2nd inlet", () => {
@@ -64,6 +57,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(1, $i(20));
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -74,6 +68,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(2, $i(30));
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -87,9 +82,10 @@ describe("MaxPackObject", () => {
         sender.sendMessage(0, $f(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $i(10), $f(0), $s("sym") ] ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
+        assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $i(10), $f(0), $s("sym") ] ]);
       });
       it("2nd inlet", () => {
@@ -97,6 +93,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(1, $f(20));
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -107,6 +104,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(2, $f(30));
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -120,9 +118,10 @@ describe("MaxPackObject", () => {
         sender.sendMessage(0, $s("foo"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $i(0), $f(0), $s("sym") ] ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
+        assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $i(0), $f(0), $s("sym") ] ]);
       });
       it("2nd inlet", () => {
@@ -130,6 +129,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(1, $s("bar"));
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -140,6 +140,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(2, $s("baz"));
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -153,9 +154,10 @@ describe("MaxPackObject", () => {
         sender.sendMessage(0, [ $i(10), $f(20) ]);
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $i(10), $f(20), $s("sym") ] ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
+        assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $i(10), $f(20), $s("sym") ] ]);
       });
       it("2nd inlet", () => {
@@ -163,6 +165,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(1, [ $i(10), $f(20) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -173,6 +176,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(2, [ $i(10), $f(20) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -185,6 +189,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(0, [ $s("set"), $i(10) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -195,6 +200,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(1, [ $s("set"), $i(20) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -205,6 +211,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(2, [ $s("set"), $i(30) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
@@ -217,6 +224,7 @@ describe("MaxPackObject", () => {
 
         sender.sendMessage(0, [ $s("nth"), $i(0) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, [ $s("nth"), $i(1) ]);
         assert(receiverSpy.callCount === 1);

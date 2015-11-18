@@ -6,13 +6,9 @@ import { $i, $f, $s } from "../../../src/TypedValue";
 describe("MaxIntObject", () => {
   describe("[ toggle ]", () => {
     const opts = {
-      "id": "obj-8",
-      "className": "toggle",
-      "tagName": "toggle",
       "numOfInlets": 1,
       "numOfOutlets": 1,
       "outletTypes": [ "int" ],
-      "patchingRect": [ 95, 175, 136, 136 ],
       "args": [],
       "attrs": {}
     };
@@ -23,10 +19,11 @@ describe("MaxIntObject", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(1) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $i(0) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
       });
     });
     describe("/int", () => {
@@ -36,10 +33,11 @@ describe("MaxIntObject", () => {
         sender.sendMessage(0, $i(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $i(0) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
       });
     });
     describe("/float", () => {
@@ -49,10 +47,11 @@ describe("MaxIntObject", () => {
         sender.sendMessage(0, $f(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $i(0) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
       });
     });
     describe("/list", () => {
@@ -62,10 +61,11 @@ describe("MaxIntObject", () => {
         sender.sendMessage(0, [ $f(10), $f(20) ]);
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $i(0) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
       });
     });
     describe("/set", () => {
@@ -74,6 +74,7 @@ describe("MaxIntObject", () => {
 
         sender.sendMessage(0, [ $s("set"), $i(10) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);

@@ -6,13 +6,9 @@ import { $i, $s } from "../../../src/TypedValue";
 describe("MaxPrintObject", () => {
   describe("[ print ]", () => {
     const opts = {
-      "id": "obj-6",
-      "className": "print",
-      "tagName": "print",
       "numOfInlets": 1,
       "numOfOutlets": 0,
       "outletTypes": [],
-      "patchingRect": [ 310, 294, 102, 23 ],
       "args": [],
       "attrs": {}
     };
@@ -31,13 +27,9 @@ describe("MaxPrintObject", () => {
   });
   describe("[ print argument @popup 1 ]", () => {
     const opts = {
-      "id": "obj-6",
-      "className": "print",
-      "tagName": "print",
       "numOfInlets": 1,
       "numOfOutlets": 0,
       "outletTypes": [],
-      "patchingRect": [ 310, 294, 102, 23 ],
       "args": [ $s("argument") ],
       "attrs": {
         popup: [ $i(1) ]

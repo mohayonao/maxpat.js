@@ -6,13 +6,9 @@ import { $i, $f, $s } from "../../../src/TypedValue";
 describe("MaxFloatNumberObject", () => {
   describe("[> 0. ]", () => {
     const opts = {
-      "id": "obj-18",
-      "className": "flonum",
-      "tagName": "flonum",
       "numOfInlets": 1,
       "numOfOutlets": 2,
       "outletTypes": [ "", "bang" ],
-      "patchingRect": [ 435, 261.5, 54, 23 ],
       "args": [],
       "attrs": {}
     };
@@ -32,10 +28,11 @@ describe("MaxFloatNumberObject", () => {
         sender.sendMessage(0, $i(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $f(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
       });
     });
     describe("/float", () => {
@@ -44,11 +41,12 @@ describe("MaxFloatNumberObject", () => {
 
         sender.sendMessage(0, $f(10));
         assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0][1], $f(10));
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $f(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
       });
     });
     describe("/max 10.", () => {
@@ -57,18 +55,21 @@ describe("MaxFloatNumberObject", () => {
 
         sender.sendMessage(0, [ $s("max"), $f(10) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $f(0) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $i(20));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $f(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $i(5));
-        assert(receiverSpy.callCount === 3);
-        assert.deepEqual(receiverSpy.args[2], [ 0, $f(5) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(5) ]);
       });
     });
     describe("/min 10.", () => {
@@ -77,18 +78,21 @@ describe("MaxFloatNumberObject", () => {
 
         sender.sendMessage(0, [ $s("min"), $f(10) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $i(20));
-        assert(receiverSpy.callCount === 2);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $f(20) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(20) ]);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $i(5));
-        assert(receiverSpy.callCount === 3);
-        assert.deepEqual(receiverSpy.args[2], [ 0, $f(10) ]);
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
       });
     });
     describe("/set 10.", () => {
@@ -97,6 +101,7 @@ describe("MaxFloatNumberObject", () => {
 
         sender.sendMessage(0, [ $s("set"), $f(10) ]);
         assert(receiverSpy.callCount === 0);
+        receiverSpy.reset();
 
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
