@@ -12,13 +12,55 @@ describe("MaxFloatObject", () => {
       "args": [],
       "attrs": {}
     };
-    describe("/bang", () => {
-      it("In left inlet: Sends the stored value out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
 
+    describe("basic action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
+
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("bang -> 0.0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $f(0) ]);
+      });
+      it("10 -> 10.0", () => {
+        sender.sendMessage(0, $i(10));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+      });
+      it("bang -> 10.0", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+      });
+      it("20.0 -> 20.0", () => {
+        sender.sendMessage(0, $f(20));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(20) ]);
+      });
+      it("bang -> 20.0", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(20) ]);
+      });
+      it("set 30.0 -> NO OUTPUT", () => {
+        sender.sendMessage(0, [ $s("set"), $f(30) ]);
+        assert(receiverSpy.callCount === 0);
+      });
+      it("bang -> 30.0", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(30) ]);
+      });
+      it("40.0 left-> NO OUTPUT", () => {
+        sender.sendMessage(1, [ $f(40) ]);
+        assert(receiverSpy.callCount === 0);
+      });
+      it("bang -> 40.0", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(40) ]);
       });
     });
   });
@@ -30,86 +72,29 @@ describe("MaxFloatObject", () => {
       "args": [ $f(7.4) ],
       "attrs": {}
     };
-    describe("/bang", () => {
-      it("In left inlet: Sends the stored value out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
+    describe("basic action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("In left inlet: Sends the stored value out the outlet", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $f(7.4) ]);
       });
     });
-    describe("/int", () => {
-      it("In left inlet: Converted to float", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
+    describe("send action", () => {
+      let { patcher, sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
 
-        sender.sendMessage(0, $i(10));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+      afterEach(() => {
         receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
       });
-      it("In right inlet: Converted to float", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
-
-        sender.sendMessage(1, $i(10));
-        assert(receiverSpy.callCount === 0);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
-      });
-    });
-    describe("/float", () => {
-      it("In left inlet: The number replaces the currently stored value and is sent out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
-
-        sender.sendMessage(0, $f(10));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
-      });
-      it("In right inlet: The number replaces the stored value without triggering output", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
-
-        sender.sendMessage(1, $f(10));
-        assert(receiverSpy.callCount === 0);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
-      });
-    });
-    describe("/send", () => {
-      it("The word send, followed by a name of a receive object, sends the number stored in the float object to all receive objects with that name, without sending it out the float object's outlet", () => {
-        let { patcher, sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
-
+      it("send goom -> NO OUTPUT", () => {
         sender.sendMessage(0, [ $s("send"), $s("goom") ]);
         assert(receiverSpy.callCount === 0);
         assert(patcher.sendMessage.callCount === 1);
         assert.deepEqual(patcher.sendMessage.args[0], [ "goom", $f(7.4) ]);
-      });
-    });
-    describe("/set 10.", () => {
-      it("In left inlet: The word set, followed by a number, replaces the stored value without triggering output", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
-
-        sender.sendMessage(0, [ $s("set"), $f(10) ]);
-        assert(receiverSpy.callCount === 0);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
       });
     });
   });

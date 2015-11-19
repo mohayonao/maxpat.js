@@ -12,100 +12,90 @@ describe("MaxFloatNumberObject", () => {
       "args": [],
       "attrs": {}
     };
-    describe("/bang", () => {
-      it("Sends the currently displayed number out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatNumberObject, opts);
+    describe("basic action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxFloatNumberObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("bang -> 0.0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(0) ]);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(0.0) ]);
       });
-    });
-    describe("/int", () => {
-      it("The number received in the inlet is stored and displayed in the number box and sent out the outlet. A float is converted to int by an int number box, and vice versa", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatNumberObject, opts);
-
+      it("10 -> 10.0", () => {
         sender.sendMessage(0, $i(10));
         assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
-        receiverSpy.reset();
-
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10.0) ]);
+      });
+      it("bang -> 10.0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10.0) ]);
+      });
+      it("20.0 -> 20.0", () => {
+        sender.sendMessage(0, $f(20));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(20.0) ]);
+      });
+      it("bang -> 20.0", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(20.0) ]);
+      });
+      it("set 30 -> NO OUTPUT", () => {
+        sender.sendMessage(0, [ $s("set"), $i(30) ]);
+        assert(receiverSpy.callCount === 0);
+      });
+      it("bang -> 30.0", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(30.0) ]);
       });
     });
-    describe("/float", () => {
-      it("The number received in the inlet is stored and displayed in the number box and sent out the outlet. A float is converted to int by an int number box, and vice versa", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatNumberObject, opts);
+    describe("min/max action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxFloatNumberObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("90.0 -> 90.0", () => {
+        sender.sendMessage(0, $f(90));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(90) ]);
+      });
+      it("max 70.0 => NO OUTPUT", () => {
+        sender.sendMessage(0, [ $s("max"), $f(70) ]);
+        assert(receiverSpy.callCount === 0);
+      });
+      it("bang -> 70.0", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(70) ]);
+      });
+      it("80.0 -> 70.0", () => {
+        sender.sendMessage(0, $f(80));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(70) ]);
+      });
+      it("10.0 -> 10.0", () => {
         sender.sendMessage(0, $f(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
       });
-    });
-    describe("/max 10.", () => {
-      it("The word max, followed by a number, sets the maximum value that can be displayed or sent out by the number box", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatNumberObject, opts);
-
-        sender.sendMessage(0, [ $s("max"), $f(10) ]);
+      it("min 30.0 -> NOT OUTPUT", () => {
+        sender.sendMessage(0, [ $s("min"), $f(30) ]);
         assert(receiverSpy.callCount === 0);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(0) ]);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $i(20));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $i(5));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(5) ]);
       });
-    });
-    describe("/min 10.", () => {
-      it("The word max, followed by a number, sets the maximum value that can be displayed or sent out by the number box", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatNumberObject, opts);
-
-        sender.sendMessage(0, [ $s("min"), $f(10) ]);
-        assert(receiverSpy.callCount === 0);
-        receiverSpy.reset();
-
+      it("bang -> 30.0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $i(20));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(20) ]);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $i(5));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(30) ]);
       });
-    });
-    describe("/set 10.", () => {
-      it("The word set , followed by a number, sets the stored and displayed value to that number without triggering output", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxFloatNumberObject, opts);
-
-        sender.sendMessage(0, [ $s("set"), $f(10) ]);
-        assert(receiverSpy.callCount === 0);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
+      it("20.0 -> 30.0", () => {
+        sender.sendMessage(0, $f(20));
         assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(30) ]);
       });
     });
   });

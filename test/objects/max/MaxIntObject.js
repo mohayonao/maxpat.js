@@ -12,13 +12,54 @@ describe("MaxIntObject", () => {
       "args": [],
       "attrs": {}
     };
-    describe("/bang", () => {
-      it("In left inlet: Sends the stored value out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
+    describe("basic action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("bang -> 0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
+      });
+      it("10 -> 10", () => {
+        sender.sendMessage(0, $i(10));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
+      });
+      it("bang -> 10", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
+      });
+      it("20.0 -> 20", () => {
+        sender.sendMessage(0, $f(20));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(20) ]);
+      });
+      it("bang -> 20", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(20) ]);
+      });
+      it("set 30 -> NO OUTPUT", () => {
+        sender.sendMessage(0, [ $s("set"), $i(30) ]);
+        assert(receiverSpy.callCount === 0);
+      });
+      it("bang -> 30", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(30) ]);
+      });
+      it("40 left-> NO OUTPUT", () => {
+        sender.sendMessage(1, [ $i(40) ]);
+        assert(receiverSpy.callCount === 0);
+      });
+      it("bang -> 40", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(40) ]);
       });
     });
   });
@@ -30,86 +71,29 @@ describe("MaxIntObject", () => {
       "args": [ $i(74) ],
       "attrs": {}
     };
-    describe("/bang", () => {
-      it("In left inlet: Sends the stored value out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
+    describe("basic action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("In left inlet: Sends the stored value out the outlet", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(74) ]);
       });
     });
-    describe("/int", () => {
-      it("In left inlet: The number replaces the currently stored value and is sent out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
+    describe("send action", () => {
+      let { patcher, sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
 
-        sender.sendMessage(0, $i(10));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
+      afterEach(() => {
         receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
       });
-      it("In right inlet: The number replaces the stored value without triggering output", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
-
-        sender.sendMessage(1, $i(10));
-        assert(receiverSpy.callCount === 0);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
-      });
-    });
-    describe("/float", () => {
-      it("In left inlet: Converted to int", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
-
-        sender.sendMessage(0, $f(10));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0][1], $i(10));
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
-      });
-      it("In right inlet: Converted to int", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
-
-        sender.sendMessage(1, $f(10));
-        assert(receiverSpy.callCount === 0);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
-      });
-    });
-    describe("/send", () => {
-      it("In left inlet: The word send, followed by the name of a receive object, sends the value stored in int to all receive objects with that name, without sending it out the outlet of the int", () => {
-        let { patcher, sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
-
+      it("send goom -> NO OUTPUT", () => {
         sender.sendMessage(0, [ $s("send"), $s("goom") ]);
         assert(receiverSpy.callCount === 0);
         assert(patcher.sendMessage.callCount === 1);
         assert.deepEqual(patcher.sendMessage.args[0], [ "goom", $i(74) ]);
-      });
-    });
-    describe("/set 10", () => {
-      it("In left inlet: The word set , followed by a number, replaces the stored value without triggering output", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIntObject, opts);
-
-        sender.sendMessage(0, [ $s("set"), $i(10) ]);
-        assert(receiverSpy.callCount === 0);
-        receiverSpy.reset();
-
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
       });
     });
   });

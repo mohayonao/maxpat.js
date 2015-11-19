@@ -12,10 +12,13 @@ describe("MaxPrintObject", () => {
       "args": [],
       "attrs": {}
     };
-    describe("/:else", () => {
-      it("Messages are not interpreted by the print object. They are simply printed verbatim in the Max Console", () => {
-        let { patcher, sender, receiverSpy } = createTestObjects(MaxPrintObject, opts);
+    describe("basci action", () => {
+      let { patcher, sender, receiverSpy } = createTestObjects(MaxPrintObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("hello world -> NO OUTPUT", () => {
         sender.sendMessage(0, [ $s("hello"), $s("world") ]);
         assert(receiverSpy.callCount === 0);
         assert(patcher.emit.callCount === 1);
@@ -35,10 +38,13 @@ describe("MaxPrintObject", () => {
         popup: [ $i(1) ]
       }
     };
-    describe("/:else", () => {
-      it("Messages are not interpreted by the print object. They are simply printed verbatim in the Max Console", () => {
-        let { patcher, sender, receiverSpy } = createTestObjects(MaxPrintObject, opts);
+    describe("basic action", () => {
+      let { patcher, sender, receiverSpy } = createTestObjects(MaxPrintObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("hello world -> NO OUTPUT", () => {
         sender.sendMessage(0, [ $s("hello"), $s("world") ]);
         assert(receiverSpy.callCount === 0);
         assert(patcher.emit.callCount === 1);

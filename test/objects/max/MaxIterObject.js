@@ -12,68 +12,56 @@ describe("MaxIterObject", () => {
       "args": [],
       "attrs": {}
     };
-    describe("/bang", () => {
-      it("In left inlet: Sends the number or list most recently received, in sequential order", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIterObject, opts);
+    describe("basic action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxIterObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+
+      it("bang -> NO OUTPUT", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 0);
       });
-    });
-    describe("/int", () => {
-      it("In left inlet: The number is sent out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIterObject, opts);
-
+      it("10 -> 10", () => {
         sender.sendMessage(0, $i(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
-        receiverSpy.reset();
-
+      });
+      it("bang -> 10", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
       });
-    });
-    describe("/float", () => {
-      it("In left inlet: The number is sent out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIterObject, opts);
-
-        sender.sendMessage(0, $f(10));
+      it("10.0 -> 10.0", () => {
+        sender.sendMessage(0, $f(10.0));
         assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
-        receiverSpy.reset();
-
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10.0) ]);
+      });
+      it("bang -> 10.0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10) ]);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $f(10.0) ]);
       });
-    });
-    describe("/list", () => {
-      it("In left inlet: The numbers in the list are sent out the outlet in sequential order", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIterObject, opts);
-
-        sender.sendMessage(0, [ $i(10), $f(10) ]);
+      it("[ 10 20.0 ] -> 10, 20.0", () => {
+        sender.sendMessage(0, [ $i(10), $f(20.0) ]);
         assert(receiverSpy.callCount === 2);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $f(10) ]);
-        receiverSpy.reset();
-
+        assert.deepEqual(receiverSpy.args[1], [ 0, $f(20.0) ]);
+      });
+      it("bang -> 10, 20.0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 2);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
-        assert.deepEqual(receiverSpy.args[1], [ 0, $f(10) ]);
+        assert.deepEqual(receiverSpy.args[1], [ 0, $f(20.0) ]);
       });
-    });
-    describe("/:else", () => {
-      it("In left inlet: See the list entry", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxIterObject, opts);
-
+      it("set 10 -> set, 10", () => {
         sender.sendMessage(0, [ $s("set"), $i(10) ]);
         assert(receiverSpy.callCount === 2);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $s("set") ] ]);
         assert.deepEqual(receiverSpy.args[1], [ 0, $i(10) ]);
-        receiverSpy.reset();
-
+      });
+      it("bang -> set, 10", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 2);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $s("set") ] ]);

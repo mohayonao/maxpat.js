@@ -12,15 +12,14 @@ describe("MaxButtonObject", () => {
       "args": [],
       "attrs": {}
     };
-    describe("/anything", () => {
-      it("When any message is received in the inlet, button flashes briefly and a bang is sent out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxButtonObject, opts);
+    describe("basic action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxButtonObject, opts);
 
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, [ $s("bang") ] ]);
+      afterEach(() => {
         receiverSpy.reset();
+      });
 
+      it("anything -> bang", () => {
         sender.sendMessage(0, $i(1));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, [ $s("bang") ] ]);

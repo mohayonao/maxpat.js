@@ -12,73 +12,97 @@ describe("MaxIntObject", () => {
       "args": [],
       "attrs": {}
     };
-    describe("/bang", () => {
-      it("Switches toggle on if it is off; switches it off if it is on", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxToggleObject, opts);
+    describe("basic action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxToggleObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("bang -> 1", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(1) ]);
-        receiverSpy.reset();
-
+      });
+      it("bang -> 0", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
+      });
+      it("bang -> 1", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(1) ]);
+      });
+      it("bang -> 0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
       });
     });
-    describe("/int", () => {
-      it("The number is sent out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxToggleObject, opts);
+    describe("action with not bang", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxToggleObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("10 -> 10", () => {
         sender.sendMessage(0, $i(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
-        receiverSpy.reset();
-
+      });
+      it("bang -> 0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
       });
-    });
-    describe("/float", () => {
-      it("Converted to int", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxToggleObject, opts);
-
+      it("10.0 -> 10", () => {
         sender.sendMessage(0, $f(10));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
-        receiverSpy.reset();
-
+      });
+      it("bang -> 0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
       });
-    });
-    describe("/list", () => {
-      it("Converted to int", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxToggleObject, opts);
-
+      it("[ 10.0 20.0 ] -> 10", () => {
         sender.sendMessage(0, [ $f(10), $f(20) ]);
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
-        receiverSpy.reset();
-
+      });
+      it("bang -> 0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
       });
     });
-    describe("/set", () => {
-      it("Switches the toggle on or off without sending anything out the outlet", () => {
-        let { sender, receiverSpy } = createTestObjects(MaxToggleObject, opts);
+    describe("set action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxToggleObject, opts);
 
+      afterEach(() => {
+        receiverSpy.reset();
+      });
+      it("set 10 -> NO OUTPUT", () => {
         sender.sendMessage(0, [ $s("set"), $i(10) ]);
         assert(receiverSpy.callCount === 0);
-        receiverSpy.reset();
-
+      });
+      it("bang -> 0", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(0) ]);
+      });
+      it("set 10 -> NO OUTPUT", () => {
+        sender.sendMessage(0, [ $s("set"), $i(10) ]);
+        assert(receiverSpy.callCount === 0);
+      });
+      it("set 0 -> NO OUTPUT", () => {
+        sender.sendMessage(0, [ $s("set"), $i(0) ]);
+        assert(receiverSpy.callCount === 0);
+      });
+      it("bang -> 1", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(1) ]);
       });
     });
   });
