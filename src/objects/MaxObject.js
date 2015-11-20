@@ -17,8 +17,6 @@ export default class MaxObject extends EventEmitter {
     this.patchingRect = opts.patchingRect;
 
     this._connections = [];
-
-    this.initialize(opts);
   }
 
   initialize() {}

@@ -1,9 +1,9 @@
 import assert from "power-assert";
 import createTestObjects from "./utils/createTestObjects";
-import MaxFloatObject from "../../../src/objects/max/MaxFloatObject";
+import MaxNumberFloatObject from "../../../src/objects/max/MaxNumberFloatObject";
 import { $i, $f, $s } from "../../../src/TypedValue";
 
-describe("MaxFloatObject", () => {
+describe("MaxNumberFloatObject", () => {
   describe("[ float ]", () => {
     const opts = {
       "numOfInlets": 2,
@@ -14,7 +14,7 @@ describe("MaxFloatObject", () => {
     };
 
     describe("basic action", () => {
-      let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
+      let { sender, receiverSpy } = createTestObjects(MaxNumberFloatObject, opts);
 
       afterEach(() => {
         receiverSpy.reset();
@@ -73,7 +73,7 @@ describe("MaxFloatObject", () => {
       "attrs": {}
     };
     describe("basic action", () => {
-      let { sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
+      let { sender, receiverSpy } = createTestObjects(MaxNumberFloatObject, opts);
 
       afterEach(() => {
         receiverSpy.reset();
@@ -85,7 +85,7 @@ describe("MaxFloatObject", () => {
       });
     });
     describe("send action", () => {
-      let { patcher, sender, receiverSpy } = createTestObjects(MaxFloatObject, opts);
+      let { patcher, sender, receiverSpy } = createTestObjects(MaxNumberFloatObject, opts);
 
       afterEach(() => {
         receiverSpy.reset();

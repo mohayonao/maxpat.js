@@ -92,13 +92,13 @@ function to(type, value) {
 }
 
 export function $i(value) {
-  return new TypedValue("int", +value|0);
+  return new TypedValue("int", value);
 }
 
 export function $f(value) {
-  return new TypedValue("float", +value || 0);
+  return new TypedValue("float", value);
 }
 
 export function $s(value) {
-  return new TypedValue("string", "" + value);
+  return new TypedValue("string", value);
 }

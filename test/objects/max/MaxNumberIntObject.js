@@ -1,19 +1,19 @@
 import assert from "power-assert";
 import createTestObjects from "./utils/createTestObjects";
-import MaxNumberObject from "../../../src/objects/max/MaxNumberObject";
+import MaxNumberIntObject from "../../../src/objects/max/MaxNumberIntObject";
 import { $i, $f, $s } from "../../../src/TypedValue";
 
-describe("MaxNumberObject", () => {
-  describe("[> 0 ]", () => {
+describe("MaxNumberIntObject", () => {
+  describe("[ int ]", () => {
     const opts = {
-      "numOfInlets": 1,
-      "numOfOutlets": 2,
-      "outletTypes": [ "", "bang" ],
+      "numOfInlets": 2,
+      "numOfOutlets": 1,
+      "outletTypes": [ "int" ],
       "args": [],
       "attrs": {}
     };
     describe("basic action", () => {
-      let { sender, receiverSpy } = createTestObjects(MaxNumberObject, opts);
+      let { sender, receiverSpy } = createTestObjects(MaxNumberIntObject, opts);
 
       afterEach(() => {
         receiverSpy.reset();
@@ -52,50 +52,48 @@ describe("MaxNumberObject", () => {
         assert(receiverSpy.callCount === 1);
         assert.deepEqual(receiverSpy.args[0], [ 0, $i(30) ]);
       });
+      it("40 left-> NO OUTPUT", () => {
+        sender.sendMessage(1, [ $i(40) ]);
+        assert(receiverSpy.callCount === 0);
+      });
+      it("bang -> 40", () => {
+        sender.sendMessage(0, $s("bang"));
+        assert(receiverSpy.callCount === 1);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(40) ]);
+      });
     });
-    describe("min/max action", () => {
-      let { sender, receiverSpy } = createTestObjects(MaxNumberObject, opts);
+  });
+  describe("[ int 74 ]", () => {
+    const opts = {
+      "numOfInlets": 2,
+      "numOfOutlets": 1,
+      "outletTypes": [ "int" ],
+      "args": [ $i(74) ],
+      "attrs": {}
+    };
+    describe("basic action", () => {
+      let { sender, receiverSpy } = createTestObjects(MaxNumberIntObject, opts);
 
       afterEach(() => {
         receiverSpy.reset();
       });
-      it("90 -> 90", () => {
-        sender.sendMessage(0, $i(90));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(90) ]);
-      });
-      it("max 70 => NO OUTPUT", () => {
-        sender.sendMessage(0, [ $s("max"), $i(70) ]);
-        assert(receiverSpy.callCount === 0);
-      });
-      it("bang -> 70", () => {
+      it("In left inlet: Sends the stored value out the outlet", () => {
         sender.sendMessage(0, $s("bang"));
         assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(70) ]);
+        assert.deepEqual(receiverSpy.args[0], [ 0, $i(74) ]);
       });
-      it("80 -> 70", () => {
-        sender.sendMessage(0, $i(80));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(70) ]);
+    });
+    describe("send action", () => {
+      let { patcher, sender, receiverSpy } = createTestObjects(MaxNumberIntObject, opts);
+
+      afterEach(() => {
+        receiverSpy.reset();
       });
-      it("10 -> 10", () => {
-        sender.sendMessage(0, $i(10));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(10) ]);
-      });
-      it("min 30 -> NOT OUTPUT", () => {
-        sender.sendMessage(0, [ $s("min"), $i(30) ]);
+      it("send goom -> NO OUTPUT", () => {
+        sender.sendMessage(0, [ $s("send"), $s("goom") ]);
         assert(receiverSpy.callCount === 0);
-      });
-      it("bang -> 30", () => {
-        sender.sendMessage(0, $s("bang"));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(30) ]);
-      });
-      it("20 -> 30", () => {
-        sender.sendMessage(0, $i(20));
-        assert(receiverSpy.callCount === 1);
-        assert.deepEqual(receiverSpy.args[0], [ 0, $i(30) ]);
+        assert(patcher.sendMessage.callCount === 1);
+        assert.deepEqual(patcher.sendMessage.args[0], [ "goom", $i(74) ]);
       });
     });
   });

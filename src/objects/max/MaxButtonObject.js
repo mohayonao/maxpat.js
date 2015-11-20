@@ -1,8 +1,8 @@
 import MaxObject from "../MaxObject";
-import TypedValue from "../../TypedValue";
+import { $s } from "../../TypedValue";
 
 export default class MaxButtonObject extends MaxObject {
   ["/:else"]() {
-    this.sendMessage(0, new TypedValue("string", "bang"));
+    this.sendMessage(0, $s("bang"));
   }
 }

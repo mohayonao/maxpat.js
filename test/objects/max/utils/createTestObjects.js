@@ -19,5 +19,7 @@ export default function createTestObjects(Klass, opts) {
     target.connect(receiver, i, i);
   }
 
+  target.initialize(opts);
+
   return { patcher, target, sender, receiver, receiverSpy };
 }

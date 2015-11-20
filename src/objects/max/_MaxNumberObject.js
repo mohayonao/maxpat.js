@@ -1,9 +1,9 @@
 import MaxObject from "../MaxObject";
-import { $f } from "../../TypedValue";
+import TypedValue from "../../TypedValue";
 import toNumber from "../../utils/toNumber";
 import toString from "../../utils/toString";
 
-export default class MaxFloatObject extends MaxObject {
+export default class _MaxNumberObject extends MaxObject {
   initialize(opts) {
     this._update(opts.args[0]);
   }
@@ -48,7 +48,7 @@ export default class MaxFloatObject extends MaxObject {
   }
 
   _update(value) {
-    this._storedValue = $f(toNumber(value));
+    this._storedValue = new TypedValue(this.outletTypes[0], toNumber(value));
   }
 
   _emit() {
