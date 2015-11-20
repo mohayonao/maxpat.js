@@ -43,8 +43,11 @@ export default class _MaxNumberBoxObject extends MaxObject {
     this._update(values[1]);
   }
 
-  _update(value) {
-    this._storedValue = new TypedValue(this.outletTypes[0], constrain(toNumber(value), this._minValue, this._maxValue));
+  _update(_value) {
+    let type = this.outletTypes[0];
+    let value = constrain(toNumber(_value), this._minValue, this._maxValue);
+
+    this._storedValue = new TypedValue(type, value);
   }
 
   _emit() {

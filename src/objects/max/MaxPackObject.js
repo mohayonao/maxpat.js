@@ -75,7 +75,9 @@ export default class MaxPackObject extends MaxObject {
 
   _update(index, value) {
     if (0 <= index && index < this._storedValue.length) {
-      this._storedValue[index] = new TypedValue(this._storedValue[index].type, value.valueOf());
+      let type = this._storedValue[index].type;
+
+      this._storedValue[index] = new TypedValue(type, value.valueOf());
     }
   }
 

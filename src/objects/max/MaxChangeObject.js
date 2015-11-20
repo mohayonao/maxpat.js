@@ -30,14 +30,14 @@ export default class MaxChangeObject extends MaxObject {
     this._mode = toMode(toString(values[1]));
   }
 
-  _update(value, emit) {
-    let rawValue = toNumber(value);
+  _update(_value, emit) {
+    let value = toNumber(_value);
     let storedValue = this._storedValue;
 
-    this._storedValue = rawValue;
+    this._storedValue = value;
 
-    if (emit && rawValue !== storedValue) {
-      if (rawValue === 0) {
+    if (emit && value !== storedValue) {
+      if (value === 0) {
         this.sendMessage(2, $i(1));
       }
 
@@ -47,17 +47,17 @@ export default class MaxChangeObject extends MaxObject {
 
       switch (this._mode) {
       case "+":
-        if (storedValue < rawValue) {
+        if (storedValue < value) {
           this.sendMessage(0, $i(1));
         }
         break;
       case "-":
-        if (rawValue < storedValue) {
+        if (value < storedValue) {
           this.sendMessage(0, $i(-1));
         }
         break;
       default:
-        this.sendMessage(0, value);
+        this.sendMessage(0, _value);
         break;
       }
     }

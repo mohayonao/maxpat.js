@@ -37,7 +37,9 @@ export default class _MaxNumberObject extends MaxObject {
 
   ["/send"](inlet, values) {
     if (inlet === 0) {
-      this.patcher.sendMessage(toString(values[1]), this._storedValue);
+      let target = toString(values[1]);
+
+      this.patcher.sendMessage(target, this._storedValue);
     }
   }
 
@@ -47,8 +49,11 @@ export default class _MaxNumberObject extends MaxObject {
     }
   }
 
-  _update(value) {
-    this._storedValue = new TypedValue(this.outletTypes[0], toNumber(value));
+  _update(_value) {
+    let type = this.outletTypes[0];
+    let value = toNumber(_value);
+
+    this._storedValue = new TypedValue(type, value);
   }
 
   _emit() {
