@@ -45,19 +45,21 @@ export default class MaxObject extends EventEmitter {
   }
 
   sendMessage(outlet, message) {
-    let targets = this._connections.filter(conn => conn.outlet === outlet);
+    if (0 <= outlet && outlet < this.numOfOutlets) {
+      if (!(message instanceof MaxMessage)) {
+        message = new MaxMessage(message);
+      }
 
-    if (!(message instanceof MaxMessage)) {
-      message = new MaxMessage(message);
-    }
+      let targets = this._connections.filter(conn => conn.outlet === outlet);
 
-    for (let i = targets.length - 1; i >= 0; i--) {
-      targets[i].destination.recvMessage(targets[i].inlet, message);
+      for (let i = targets.length - 1; i >= 0; i--) {
+        targets[i].destination.recvMessage(targets[i].inlet, message);
+      }
     }
   }
 
   recvMessage(inlet, message) {
-    if (0 <= inlet && inlet <= this.numOfInlets) {
+    if (0 <= inlet && inlet < this.numOfInlets) {
       if (!(message instanceof MaxMessage)) {
         message = new MaxMessage(message);
       }
