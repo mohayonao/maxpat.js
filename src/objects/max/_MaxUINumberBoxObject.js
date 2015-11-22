@@ -3,7 +3,7 @@ import TypedValue from "../../TypedValue";
 import toNumber from "../../utils/toNumber";
 import constrain from "../../utils/constrain";
 
-export default class _MaxNumberBoxObject extends MaxObject {
+export default class _MaxUINumberBoxObject extends MaxObject {
   initialize(opts) {
     this._maxValue = opts.attrs.maximum ? toNumber(opts.attrs.maximum[0]) : +Infinity;
     this._minValue = opts.attrs.minimum ? toNumber(opts.attrs.minimum[0]) : -Infinity;

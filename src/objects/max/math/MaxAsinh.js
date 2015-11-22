@@ -1,9 +1,12 @@
-import _MaxUnaryOpObject from "../_MaxUnaryOpObject";
+import _MaxMathOperator from "../_MaxMathOperator";
 
-export default class MaxAsinh extends _MaxUnaryOpObject {
+const FUNC = Math.asinh;
+
+export default class MaxAsinh extends _MaxMathOperator {
   constructor(...args) {
     super(...args);
 
-    this._func = Math.asinh;
+    this._values = [ 0 ];
+    this._func = FUNC;
   }
 }

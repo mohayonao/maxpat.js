@@ -1,6 +1,6 @@
-import _MaxNumberBoxObject from "../_MaxNumberBoxObject";
+import _MaxUINumberBoxObject from "../_MaxUINumberBoxObject";
 
-export default class MaxFlonum extends _MaxNumberBoxObject {
+export default class MaxFlonum extends _MaxUINumberBoxObject {
   constructor(...args) {
     super(...args);
 

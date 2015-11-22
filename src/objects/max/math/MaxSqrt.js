@@ -1,9 +1,12 @@
-import _MaxUnaryOpObject from "../_MaxUnaryOpObject";
+import _MaxMathOperator from "../_MaxMathOperator";
 
-export default class MaxUnaryOpSqrtObject extends _MaxUnaryOpObject {
+const FUNC = Math.sqrt;
+
+export default class MaxSqrt extends _MaxMathOperator {
   constructor(...args) {
     super(...args);
 
-    this._func = Math.sqrt;
+    this._values = [ 0 ];
+    this._func = FUNC;
   }
 }

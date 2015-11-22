@@ -1,13 +1,12 @@
-import _MaxUnaryOpObject from "../_MaxUnaryOpObject";
+import _MaxMathOperator from "../_MaxMathOperator";
 
-export default class MaxBitand extends _MaxUnaryOpObject {
+const FUNC = (a, b) => a & b;
+
+export default class MaxBitand extends _MaxMathOperator {
   constructor(...args) {
     super(...args);
 
-    this._func = func;
+    this._values = [ 0, 0 ];
+    this._func = FUNC;
   }
-}
-
-function func(a, b) {
-  return a & b;
 }

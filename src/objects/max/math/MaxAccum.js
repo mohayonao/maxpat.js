@@ -4,14 +4,8 @@ import toNumber from "../../../utils/toNumber";
 
 export default class MaxAccum extends MaxObject {
   initialize(opts) {
-    this._values = [ 0, 0, 1 ];
-
-    if (typeof opts.args[0] !== "undefined") {
-      this._update(1, opts.args[0]);
-    }
-    if (typeof opts.args[1] !== "undefined") {
-      this._update(2, opts.args[1]);
-    }
+    this._values = [ 0, 0, 0 ];
+    this._update(0, opts.args[0]);
   }
 
   ["/bang"](inlet) {
@@ -34,16 +28,24 @@ export default class MaxAccum extends MaxObject {
     }
   }
 
+  ["/list"](inlet, values) {
+    if (inlet === 0) {
+      this._update(0, values[0]);
+      this._emit();
+    }
+  }
+
   ["/set"](inlet, values) {
     this._update(inlet, values[1]);
   }
 
-  _update(index, _value) {
-    if (0 <= index && index < 3) {
-      this._values[index] = toNumber(_value);
+  _update(inlet, _value) {
+    if (0 <= inlet && inlet < 3) {
+      this._values[inlet] = toNumber(_value);
+      this._values[0] = (this._values[0] + this._values[1]) * this._values[2];
 
       let type = this.outletTypes[0];
-      let value = (this._values[0] + this._values[1]) * this._values[2];
+      let value = this._values[0];
 
       this._storedValue = new TypedValue(type, value);
     }

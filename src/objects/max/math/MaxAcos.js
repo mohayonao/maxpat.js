@@ -1,9 +1,12 @@
-import _MaxUnaryOpObject from "../_MaxUnaryOpObject";
+import _MaxMathOperator from "../_MaxMathOperator";
 
-export default class MaxAcos extends _MaxUnaryOpObject {
+const FUNC = Math.acos;
+
+export default class MaxAcos extends _MaxMathOperator {
   constructor(...args) {
     super(...args);
 
-    this._func = Math.acos;
+    this._values = [ 0 ];
+    this._func = FUNC;
   }
 }

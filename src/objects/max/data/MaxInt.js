@@ -1,6 +1,6 @@
-import _MaxNumberObject from "../_MaxNumberObject";
+import _MaxDataNumberObject from "../_MaxDataNumberObject";
 
-export default class MaxInt extends _MaxNumberObject {
+export default class MaxInt extends _MaxDataNumberObject {
   constructor(...args) {
     super(...args);
 

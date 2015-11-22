@@ -1,9 +1,12 @@
-import _MaxUnaryOpObject from "../_MaxUnaryOpObject";
+import _MaxMathOperator from "../_MaxMathOperator";
 
-export default class MaxUnaryOpAtanhObject extends _MaxUnaryOpObject {
+const FUNC = Math.atanh;
+
+export default class MaxAtanh extends _MaxMathOperator {
   constructor(...args) {
     super(...args);
 
-    this._func = Math.atanh;
+    this._values = [ 0 ];
+    this._func = FUNC;
   }
 }
