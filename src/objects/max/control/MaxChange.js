@@ -10,16 +10,8 @@ export default class MaxChange extends MaxObject {
     this._mode = toMode(toString(defaults(opts.args[1], "")));
   }
 
-  ["/int"](inlet, value) {
-    this._update(value, true);
-  }
-
   ["/float"](inlet, value) {
     this._update(value, true);
-  }
-
-  ["/list"](inlet, values) {
-    this._update(values[0], true);
   }
 
   ["/set"](inlet, values) {

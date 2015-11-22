@@ -12,27 +12,17 @@ export default class MaxToggle extends MaxObject {
     this._emit();
   }
 
-  ["/int"](inlet, value) {
-    this._update(toNumber(value));
-    this._emit();
-  }
-
   ["/float"](inlet, value) {
-    this._update(toNumber(value));
-    this._emit();
-  }
-
-  ["/list"](inlet, values) {
-    this._update(toNumber(values[0]));
+    this._update(value);
     this._emit();
   }
 
   ["/set"](inlet, values) {
-    this._update(toNumber(values[1]));
+    this._update(values[1]);
   }
 
   _update(value) {
-    this._storedValue = $i(value);
+    this._storedValue = $i(toNumber(value));
   }
 
   _emit() {

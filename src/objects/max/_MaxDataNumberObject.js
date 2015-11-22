@@ -14,22 +14,8 @@ export default class _MaxNumberObject extends MaxObject {
     }
   }
 
-  ["/int"](inlet, value) {
-    this._update(value);
-    if (inlet === 0) {
-      this._emit();
-    }
-  }
-
   ["/float"](inlet, value) {
     this._update(value);
-    if (inlet === 0) {
-      this._emit();
-    }
-  }
-
-  ["/list"](inlet, values) {
-    this._update(values[0]);
     if (inlet === 0) {
       this._emit();
     }

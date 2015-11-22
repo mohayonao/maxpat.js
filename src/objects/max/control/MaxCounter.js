@@ -74,7 +74,7 @@ export default class MaxCounter extends MaxObject {
     }
   }
 
-  ["/int"](inlet, value) {
+  ["/float"](inlet, value) {
     switch (inlet) {
     case 0:
       this._update();
@@ -113,10 +113,6 @@ export default class MaxCounter extends MaxObject {
       this._storedValue = constrain(this._storedValue, this._minValue, this._maxValue);
       break;
     }
-  }
-
-  ["/float"](inlet, value) {
-    this["/int"](inlet, value);
   }
 
   ["/set"](inlet, values) {

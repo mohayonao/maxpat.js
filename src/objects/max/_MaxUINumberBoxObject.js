@@ -14,18 +14,8 @@ export default class _MaxUINumberBoxObject extends MaxObject {
     this._emit();
   }
 
-  ["/int"](inlet, value) {
-    this._update(value);
-    this._emit();
-  }
-
   ["/float"](inlet, value) {
     this._update(value);
-    this._emit();
-  }
-
-  ["/list"](inlet, values) {
-    this._update(values[0]);
     this._emit();
   }
 

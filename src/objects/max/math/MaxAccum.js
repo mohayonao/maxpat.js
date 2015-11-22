@@ -14,23 +14,9 @@ export default class MaxAccum extends MaxObject {
     }
   }
 
-  ["/int"](inlet, value) {
-    this._update(inlet, value);
-    if (inlet === 0) {
-      this._emit();
-    }
-  }
-
   ["/float"](inlet, value) {
     this._update(inlet, value);
     if (inlet === 0) {
-      this._emit();
-    }
-  }
-
-  ["/list"](inlet, values) {
-    if (inlet === 0) {
-      this._update(0, values[0]);
       this._emit();
     }
   }

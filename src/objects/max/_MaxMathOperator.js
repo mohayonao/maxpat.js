@@ -17,13 +17,6 @@ export default class _MaxMathOperator extends MaxObject {
     }
   }
 
-  ["/int"](inlet, value) {
-    this._update(inlet, [ value ]);
-    if (inlet === 0) {
-      this._emit();
-    }
-  }
-
   ["/float"](inlet, value) {
     this._update(inlet, [ value ]);
     if (inlet === 0) {
